@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>朱子硕 | 个人博客</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0a0a0a;
+            --secondary-color: #c5a047;
+            --accent-color: #1a1a1a;
+            --text-light: #e5e5e5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--primary-color);
+            color: var(--text-light);
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* 导航样式 */
+        .nav-container {
+            background: linear-gradient(to right, #1a1a1a 0%, #0a0a0a 100%);
+            border-bottom: 2px solid var(--secondary-color);
+            padding: 1rem 0;
+        }
+
+        .nav-brand {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .nav-brand::before {
+            content: "朱";
+            position: absolute;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(145deg, #c5a047 0%, #8a6f3d 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #fff3d4;
+            box-shadow: 0 0 10px rgba(197, 160, 71, 0.5);
+        }
+
+        /* 主体内容 */
+        .hero-section {
+            background: url('metal-texture.jpg') center/cover;
+            padding: 4rem 0;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        .badge {
+            background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
+            border: 2px solid var(--secondary-color);
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 0 30px rgba(197, 160, 71, 0.2);
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .school-info {
+            border-left: 3px solid var(--secondary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        /* 文章样式 */
+        .article-card {
+            background: var(--accent-color);
+            border: 1px solid rgba(197, 160, 71, 0.3);
+            padding: 2rem;
+            margin: 2rem 0;
+            transition: transform 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(197, 160, 71, 0.2);
+        }
+
+        /* 页脚 */
+        footer {
+            background: var(--accent-color);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                text-align: center;
+            }
+            .nav-brand {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-container">
+        <div class="container">
+            <a href="#" class="nav-brand">子硕的求知录</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero-section">
+            <div class="badge">
+                <h1>朱子硕</h1>
+                <div class="school-info">
+                    <p>高三学生</p>
+                    <p>召陵区实验高级中学</p>
+                </div>
+                <p>探索知识边界 • 记录成长轨迹 • 沉淀思想精华</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <article class="article-card">
+                <h2>近期文章</h2>
+                <p>（此处可添加最新文章列表）</p>
+            </article>
+
+            <article class="article-card">
+                <h2>学习心得</h2>
+                <p>（此处可添加学习笔记和感悟）</p>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 朱子硕 - 召陵区实验高级中学</p>
+        <p>求知若饥，虚心若愚</p>
+    </footer>
+</body>
+</html>
