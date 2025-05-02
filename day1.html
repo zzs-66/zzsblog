@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乙巳年五月初一 | 假期启程</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper-color: #e0d0b0;
+            --ink-color: #4a4235;
+            --gold-color: #756746;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #2e2a24;
+            min-height: 100vh;
+            padding: 2rem 0;
+            font-family: 'Noto Serif SC', serif;
+            color: var(--ink-color);
+        }
+
+        .scroll-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: 
+                linear-gradient(to bottom, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.1) 100%),
+                url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92U2hXHF/C1M8uP/ZtYdiuj26UdAdQQSXQErwSOMzt/XWRWAz5GuSBIkwG1H3FabJ2OsUOUhGC6tK4EMtJO0ttC6IBD3kM0ve0tJwMdSfjZo+EEISaeTr9P3wYrGjXqyC1krcKdhMpxEnt5JetoulscpyzhXN5FRpuPHvbeQaKxFAEB6EN+cYN6xD7RYGpXpNndMmZgM5Dcs3YSNFDHUo2LGfZuukSWyUYirJAdYbF3MfqEKmjM+I2EfhA94iG3L7uKrR+GdWD73ydlIB+6hgref1QTlmgmbM3/LeX5GI1Ux1RWpgxpLuZ2+I+IjzZ8wqE4nilvQdkUdfhzI5QDWy+kw5Wgg2pGpeEVeCCA7b85BO3F9DzxB3cdqvBzWcmzbyMiqhzuYqtHRVG2y4x+KOlnyqla8AoWWpuBoYRxzXrfKuILl6SfiWCbjxoZJUaCBj1CjH7GIaDbc9kqBY3W/Rgjda1iqQcOJu2WW+76pZC9QG7M00dffe9hNnseupFL53r8F7YHSwJWUKP2q+k7RdsxyOB11n0xtOvnW4irMMFNV4H0uqwS5ExsmP9AxbDTc9Jvnne8o+Ba3iS1kXQLy1TqAAAAAElFTkSuQmCC'),
+                linear-gradient(to bottom, var(--paper-color) 0%, #d4c5a1 100%);
+            background-blend-mode: multiply;
+            box-shadow: 
+                0 0 30px rgba(0,0,0,0.3),
+                inset 0 0 50px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            position: relative;
+            padding: 60px 40px;
+            overflow: hidden;
+        }
+
+        .scroll-container::before,
+        .scroll-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            background: linear-gradient(45deg, #6b5c3d 0%, #8a6f3d 50%, #6b5c3d 100%);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .scroll-container::before {
+            left: 0;
+            border-right: 2px solid var(--gold-color);
+            background-image: 
+                linear-gradient(45deg, transparent 45%, rgba(0,0,0,0.1) 50%, transparent 55%),
+                linear-gradient(-45deg, transparent 45%, rgba(0,0,0,0.1) 50%, transparent 55%);
+        }
+
+        .scroll-container::after {
+            right: 0;
+            border-left: 2px solid var(--gold-color);
+        }
+
+        .diary-content {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1em;
+            line-height: 2;
+            text-align: justify;
+            position: relative;
+            z-index: 2;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 23px,
+                rgba(0,0,0,0.07) 23px,
+                rgba(0,0,0,0.07) 24px
+            );
+        }
+
+        .date-seal {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .date-seal h1 {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 2.5rem;
+            color: var(--gold-color);
+            display: inline-block;
+            padding: 0 2rem;
+            border-bottom: 3px double var(--gold-color);
+            margin-bottom: 1rem;
+        }
+
+        .weather {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .handwriting {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 1.2em;
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+            border-left: 3px solid var(--gold-color);
+            position: relative;
+        }
+
+        .handwriting::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+        }
+
+        /* 古籍插图样式 */
+        .classic-frame {
+            position: relative;
+            margin: 2rem 0;
+            padding: 15px;
+            background: #f7f0e1;
+            border: 1px solid var(--gold-color);
+            box-shadow: 0 0 15px rgba(197, 160, 71, 0.2),
+                       inset 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        .classic-frame::before,
+        .classic-frame::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--gold-color);
+        }
+
+        .classic-frame::before {
+            top: -5px;
+            left: -5px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .classic-frame::after {
+            bottom: -5px;
+            right: -5px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .classic-frame img {
+            width: 100%;
+            border: 1px solid #d4c5a1;
+            display: block;
+            background: #fff;
+            padding: 5px;
+        }
+
+        .image-caption {
+            text-align: center;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: var(--gold-color);
+            margin-top: 1rem;
+            font-size: 0.9em;
+        }
+
+        /* 返回按钮 */
+        .back-btn {
+            position: fixed;
+            left: 2rem;
+            top: 2rem;
+            background: var(--paper-color);
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--gold-color);
+            border-radius: 30px;
+            text-decoration: none;
+            color: var(--gold-color);
+            font-family: 'Ma Shan Zheng', cursive;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            background: var(--gold-color);
+            color: var(--paper-color);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .scroll-container {
+                padding: 40px 20px;
+            }
+            .scroll-container::before,
+            .scroll-container::after {
+                width: 20px;
+            }
+            .diary-content {
+                font-size: 1em;
+                background-image: repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 21px,
+                    rgba(0,0,0,0.07) 21px,
+                    rgba(0,0,0,0.07) 22px
+                );
+            }
+            .classic-frame {
+                margin: 1rem;
+                padding: 10px;
+            }
+            .classic-frame::before,
+            .classic-frame::after {
+                width: 20px;
+                height: 20px;
+            }
+            .back-btn {
+                left: 1rem;
+                top: 1rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="五一假期.html" class="back-btn">‹ 返之</a>
+
+    <div class="scroll-container">
+        <article class="diary-content">
+            <div class="date-seal">
+                <span class="weather">晴空如洗 · 微风和煦</span>
+                <h1>乙巳年五月初一</h1>
+                <div>时维公元二〇二五年五月一日</div>
+            </div>
+
+            <p class="handwriting">晨光初露，执笔启卷，记此佳日。</p>
+
+            <h2>【晨起】</h2>
+            <p>晨寤巳时正，遨戏少顷，闲极乃筑云阁以自娱。</p>
+
+            <h2>【午寐】</h2>
+            <p>午倦复眠，及寤自忖：朱子硕者，岂非睡觉大王耶？哑然失笑，遂作此诗。</p>
+            <blockquote>
+                       睡觉
+                   （现-朱子硕）
+                睡觉睡觉睡觉，牛哔牛哔牛哔。
+                我要我要我要，睡觉睡觉睡觉。
+            </blockquote>
+
+            <h2>【格物】</h2>
+            <div class="classic-frame">
+                <img src="../assets/images/holiday/day1-experiment.jpg" 
+                     alt="云阁搭建图说">
+                <div class="image-caption"> 乙巳年自建个人博客图</div>
+            </div>
+
+            <h2>【暮省】</h2>
+            <p>是日所获颇丰，然学业未达预期，当于改日补之。夜窥天垣，文昌六曜煌煌并耀，似玉衡列斗而昭文运；奎光贯霄，紫气东来而映华章。</p>
+
+            <div style="text-align: right; margin-top: 2rem;">
+                <p>朱子硕 书于家中</p>
+                <div style="font-family: 'Ma Shan Zheng'; color: var(--gold-color);">🖋️</div>
+            </div>
+        </article>
+    </div>
+</body>
+</html>
