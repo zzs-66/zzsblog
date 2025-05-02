@@ -1,1 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>近期日记 | 朱子硕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0a0a0a;
+            --secondary-color: #c5a047;
+            --accent-color: #1a1a1a;
+            --text-light: #e5e5e5;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--primary-color);
+            color: var(--text-light);
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .nav-container {
+            background: linear-gradient(to right, #1a1a1a 0%, #0a0a0a 100%);
+            border-bottom: 2px solid var(--secondary-color);
+            padding: 1.2rem 0;
+            position: relative;
+        }
+
+        .back-btn {
+            font-family: 'Cinzel';
+            color: var(--secondary-color);
+            text-decoration: none;
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(197, 160, 71, 0.3);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(197, 160, 71, 0.1);
+            transform: translateY(-50%) translateX(-5px);
+        }
+
+        .diary-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 3rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, 
+                transparent 0%,
+                #c5a047 30%,
+                #8a6f3d 70%,
+                transparent 100%
+            );
+            box-shadow: 0 0 20px rgba(197, 160, 71, 0.2);
+        }
+
+        .diary-item {
+            position: relative;
+            margin-left: 50px;
+            margin-bottom: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .diary-link {
+            display: block;
+            padding: 2rem;
+            background: var(--accent-color);
+            border: 1px solid rgba(197, 160, 71, 0.2);
+            border-radius: 5px;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diary-link::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                transparent,
+                rgba(197, 160, 71, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .diary-link:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 25px rgba(197, 160, 71, 0.2);
+        }
+
+        .diary-link:hover::before {
+            transform: rotate(45deg) translateX(100%);
+        }
+
+        .diary-date {
+            color: var(--secondary-color);
+            font-family: 'Cinzel';
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .diary-date::before {
+            content: '📅';
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .diary-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .diary-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 20px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+
+        .diary-excerpt {
+            color: #999;
+            line-height: 1.8;
+            padding-left: 30px;
+        }
+
+        .decor-line {
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            width: 30px;
+            height: 1px;
+            background: var(--secondary-color);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .diary-link:hover .decor-line {
+            opacity: 1;
+            right: -30px;
+        }
+
+        @media (max-width: 768px) {
+            .diary-container {
+                padding: 0 1rem;
+            }
+            .timeline::before {
+                left: 10px;
+            }
+            .diary-item {
+                margin-left: 30px;
+            }
+            .diary-link {
+                padding: 1.5rem;
+            }
+            .back-btn {
+                left: 1rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-container">
+        <a href="index.html" class="back-btn">‹ 返回主殿</a>
+        <div class="nav-brand" style="text-align: center;font-size: 1.8rem;">近期卷轴</div>
+    </nav>
+
+    <main class="diary-container">
+        <div class="timeline">
+            <article class="diary-item">
+                <a href="五一假期.html" class="diary-link">
+                    <div class="diary-date">2025-05-01</div>
+                    <h2 class="diary-title">
+                        五一纪事
+                    </h2>
+                    <p class="diary-excerpt">
+                        放假大王...
+                    </p>
+                    <div class="decor-line"></div>
+                </a>
+            </article>
+
+            <article class="diary-item">
+                <a href="二模总结.html" class="diary-link">
+                    <div class="diary-date">2025-04-28</div>
+                    <h2 class="diary-title">
+                        逆天
+                    </h2>
+                    <p class="diary-excerpt">
+                        逆天...
+                    </p>
+                    <div class="decor-line"></div>
+                </a>
+            </article>
+
+            <article class="diary-item">
+                <a href="英语突破.html" class="diary-link">
+                    <div class="diary-date">2025-04-25</div>
+                    <h2 class="diary-title">
+                        逆天。。。
+                    </h2>
+                    <p class="diary-excerpt">
+                        逆天...
+                    </p>
+                    <div class="decor-line"></div>
+                </a>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('.diary-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(10px)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
