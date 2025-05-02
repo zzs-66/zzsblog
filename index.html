@@ -24,14 +24,35 @@
             color: var(--text-light);
             font-family: 'Open Sans', sans-serif;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* 哥们别扒我源 */
+        .particles {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(197, 160, 71, 0.3);
+            border-radius: 50%;
+            animation: float 8s infinite linear;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20vh) scale(0.8); }
+        }
+
         .nav-container {
             background: linear-gradient(to right, #1a1a1a 0%, #0a0a0a 100%);
             border-bottom: 2px solid var(--secondary-color);
             padding: 1.2rem 0;
             position: relative;
+            backdrop-filter: blur(5px);
         }
 
         .nav-brand {
@@ -41,33 +62,33 @@
             background: linear-gradient(45deg, #c5a047 30%, #e5d7a3 70%);
             -webkit-background-clip: text;
             background-clip: text;
-            text-decoration: none;
             position: relative;
             padding: 0 0.5rem;
             letter-spacing: 1px;
+            transition: all 0.3s ease;
         }
 
-        .nav-brand::after {
+        .nav-brand::before {
             content: "";
             position: absolute;
-            bottom: -5px;
+            top: -5px;
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                #c5a047 30%, 
-                #8a6f3d 70%, 
-                transparent 100%
-            );
-            box-shadow: 0 2px 8px rgba(197, 160, 71, 0.3);
+            background: linear-gradient(90deg, transparent, #c5a047 30%, #8a6f3d 70%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        /* 主体 */
+        .nav-brand:hover::before {
+            opacity: 1;
+        }
+
         .hero-section {
             background: url('metal-texture.jpg') center/cover;
             padding: 4rem 0;
             border-bottom: 3px solid var(--secondary-color);
+            position: relative;
         }
 
         .badge {
@@ -77,6 +98,9 @@
             max-width: 800px;
             margin: 0 auto;
             box-shadow: 0 0 30px rgba(197, 160, 71, 0.2);
+            transform: translateY(0);
+            opacity: 1;
+            transition: all 0.6s ease;
         }
 
         h1 {
@@ -84,6 +108,7 @@
             color: var(--secondary-color);
             font-size: 2.5rem;
             margin-bottom: 1rem;
+            text-shadow: 0 2px 8px rgba(197, 160, 71, 0.2);
         }
 
         .school-info {
@@ -92,63 +117,70 @@
             margin: 1.5rem 0;
         }
 
-        /* 样式 */
         .article-card {
             background: var(--accent-color);
-            border: 1px solid rgba(197, 160, 71, 0.3);
+            border: 1px solid transparent;
             padding: 2rem;
             margin: 2rem 0;
-            transition: transform 0.3s ease;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateY(0);
+            overflow: hidden;
+            opacity: 0;
+        }
+
+        .article-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(197, 160, 71, 0.1), transparent);
+            transition: left 0.6s;
         }
 
         .article-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(197, 160, 71, 0.2);
+            box-shadow: 0 10px 30px rgba(197, 160, 71, 0.15);
+            border-color: var(--secondary-color);
         }
 
-        /* 链接 */
-        .article-links a {
-            color: #c5a047;
+        .article-card:hover::before {
+            left: 100%;
+        }
+
+        .category-link {
+            display: block;
+            color: var(--text-light);
             text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            padding: 1.5rem;
             position: relative;
-            padding-right: 25px;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            display: inline-block;
+            transition: all 0.3s ease;
         }
 
-        .article-links a::after {
-            content: "→";
+        .category-link::after {
+            content: "›";
             position: absolute;
-            right: 0;
-            transition: transform 0.3s ease;
+            right: 1.5rem;
+            color: var(--secondary-color);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
         }
 
-        .article-links a:hover {
-            color: #e5c063;
-            text-shadow: 0 0 8px rgba(229, 192, 99, 0.3);
+        .category-link:hover {
+            color: var(--secondary-color);
+            padding-right: 3rem;
         }
 
-        .article-links a:hover::after {
-            transform: translateX(3px);
-            text-shadow: 2px 0 5px rgba(229, 192, 99, 0.3);
+        .category-link:hover::after {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        .article-links a::before {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background: linear-gradient(90deg, transparent, #c5a047 50%, transparent);
-            transition: width 0.3s ease;
-        }
-
-        .article-links a:hover::before {
-            width: 100%;
-        }
-
-        /* 页脚 */
         footer {
             background: var(--accent-color);
             padding: 2rem;
@@ -158,17 +190,30 @@
         }
 
         @media (max-width: 768px) {
-            .nav-container {
-                text-align: center;
-            }
             .nav-brand {
                 font-size: 1.8rem;
-                padding: 0 0.3rem;
+            }
+            .category-link {
+                font-size: 1.5rem;
+                padding: 1.2rem;
+            }
+            .article-card {
+                margin: 1.5rem 0;
+                padding: 1.5rem;
+            }
+            .particle {
+                display: none;
+            }
+            .badge {
+                padding: 1.5rem;
+                margin: 0 1rem;
             }
         }
     </style>
 </head>
 <body>
+    <div class="particles"></div>
+
     <nav class="nav-container">
         <div class="container">
             <a href="#" class="nav-brand">朱子硕大王的日记</a>
@@ -189,16 +234,15 @@
 
         <section class="content-section">
             <article class="article-card">
-                <h2>近期日记</h2>
-                <p>（受兼容性限制此处我仅会添加日记列表）</p>
-                <div class="article-links">
-                    <a href="article.html">第一篇日记</a>
-                </div>
+                <a href="近期日记.html" class="category-link">近期日记</a>
             </article>
             
             <article class="article-card">
-                <h2>学习心得</h2>
-                <p>（受兼容性限制此处我仅会添加心得列表）</p>
+                <a href="学习心得.html" class="category-link">学习心得</a>
+            </article>
+
+            <article class="article-card">
+                <a href="个人.html" class="category-link">个人档案</a>
             </article>
         </section>
     </main>
@@ -207,5 +251,34 @@
         <p>&copy; 创建于2025.5.1 朱子硕 - 召陵区实验高级中学</p>
         <p>求知若饥，虚心若愚</p>
     </footer>
+
+    <script>
+        function createParticles() {
+            const container = document.querySelector('.particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.cssText = `
+                    width: ${Math.random()*3+1}px;
+                    height: ${Math.random()*3+1}px;
+                    left: ${Math.random()*100}%;
+                    top: ${Math.random()*100}%;
+                    animation-delay: ${Math.random()*5}s;
+                `;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.article-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = 1;
+                    card.style.transform = 'translateY(0)';
+                }, index*150);
+            });
+        });
+    </script>
 </body>
 </html>
