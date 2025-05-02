@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五一假期 | 朱子硕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0a0a0a;
+            --secondary-color: #c5a047;
+            --accent-color: #1a1a1a;
+            --text-light: #e5e5e5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--primary-color);
+            color: var(--text-light);
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+        }
+
+        .nav-container {
+            background: linear-gradient(to right, #1a1a1a 0%, #0a0a0a 100%);
+            border-bottom: 2px solid var(--secondary-color);
+            padding: 1.2rem 0;
+            position: relative;
+        }
+
+        .back-btn {
+            font-family: 'Cinzel';
+            color: var(--secondary-color);
+            text-decoration: none;
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(197, 160, 71, 0.3);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(197, 160, 71, 0.1);
+            transform: translateY(-50%) translateX(-5px);
+        }
+
+        .holiday-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 3rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, 
+                transparent 0%,
+                #c5a047 30%,
+                #8a6f3d 70%,
+                transparent 100%
+            );
+            box-shadow: 0 0 20px rgba(197, 160, 71, 0.2);
+        }
+
+        .day-item {
+            position: relative;
+            margin-left: 50px;
+            margin-bottom: 2.5rem;
+        }
+
+        .day-link {
+            display: block;
+            padding: 2rem;
+            background: var(--accent-color);
+            border: 1px solid rgba(197, 160, 71, 0.2);
+            border-radius: 5px;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .day-link::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                transparent,
+                rgba(197, 160, 71, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .day-link:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 25px rgba(197, 160, 71, 0.2);
+        }
+
+        .day-link:hover::before {
+            transform: rotate(45deg) translateX(100%);
+        }
+
+        .day-number {
+            color: var(--secondary-color);
+            font-family: 'Cinzel';
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .day-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .day-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 20px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+
+        .day-excerpt {
+            color: #999;
+            line-height: 1.8;
+            padding-left: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .holiday-container {
+                padding: 0 1rem;
+            }
+            .timeline::before {
+                left: 10px;
+            }
+            .day-item {
+                margin-left: 30px;
+            }
+            .day-link {
+                padding: 1.5rem;
+            }
+            .back-btn {
+                left: 1rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-container">
+        <a href="../近期日记.html" class="back-btn">‹ 返回日记目录</a>
+        <div class="nav-brand" style="text-align: center;font-size: 1.8rem;">五一假期</div>
+    </nav>
+
+    <main class="holiday-container">
+        <div class="timeline">
+            <article class="day-item">
+                <a href="day1.html" class="day-link">
+                    <div class="day-number">第一天 · 5/1</div>
+                    <h2 class="day-title">假期启程</h2>
+                    <p class="day-excerpt">搭建这个blog...</p>
+                </a>
+            </article>
+
+            <article class="day-item">
+                <a href="day2.html" class="day-link">
+                    <div class="day-number">第二天 · 5/2</div>
+                    <h2 class="day-title">无</h2>
+                    <p class="day-excerpt">无...</p>
+                </a>
+            </article>
+
+            <article class="day-item">
+                <a href="day3.html" class="day-link">
+                    <div class="day-number">第三天 · 5/3</div>
+                    <h2 class="day-title">无</h2>
+                    <p class="day-excerpt">无...</p>
+                </a>
+            </article>
+
+            <article class="day-item">
+                <a href="day4.html" class="day-link">
+                    <div class="day-number">第四天 · 5/4</div>
+                    <h2 class="day-title">无</h2>
+                    <p class="day-excerpt">无...</p>
+                </a>
+            </article>
+
+            <article class="day-item">
+                <a href="day5.html" class="day-link">
+                    <div class="day-number">第五天 · 5/5</div>
+                    <h2 class="day-title">无</h2>
+                    <p class="day-excerpt">无...</p>
+                </a>
+            </article>
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('.day-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(10px)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
