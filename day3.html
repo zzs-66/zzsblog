@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乙巳年竹简录 | GitHub Pages</title>
+    <!-- 三维核心库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- 物理渲染扩展 -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        :root {
+            --bamboo-base: #e3d4b3;
+            --bamboo-node: #9e835e;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #3a2e28;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        /* 三维画布容器 */
+        #canvas-container {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        /* 竹简内容层 */
+        .content-overlay {
+            position: relative;
+            z-index: 1;
+            pointer-events: none;
+            color: #4d3825;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* PBR材质参数 */
+        .bamboo-material {
+            roughness: 0.6;
+            metalness: 0.1;
+            normalScale: new THREE.Vector2(0.8, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <article class="content-overlay">
+        <header style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="font-size: 2.5em;">乙巳年五月初三</h1>
+            <div>时维公元二〇二五年五月三日</div>
+        </header>
+
+        <section>
+            <h2>【朱子硕响应测试】</h2>
+            <p>响应测试</p>
+            
+            <div class="classic-frame">
+                <img src="assets/textures/bamboo_normal.png" alt="测试">
+            </div>
+        </section>
+    </article>
+
+    <script>
+        // 初始化三维场景
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // PBR材质配置
+        const textureLoader = new THREE.TextureLoader();
+        const materials = {
+            bamboo: new THREE.MeshStandardMaterial({
+                color: 0xe3d4b3,
+                map: textureLoader.load('assets/textures/bamboo_albedo.jpg'),
+                normalMap: textureLoader.load('assets/textures/bamboo_normal.jpg'),
+                roughnessMap: textureLoader.load('assets/textures/bamboo_roughness.jpg'),
+                metalness: 0.1,
+                roughness: 0.6
+            })
+        };
+
+        // 竹简几何体
+        const createBambooStrip = () => {
+            const geometry = new THREE.BoxGeometry(2, 0.3, 8);
+            const mesh = new THREE.Mesh(geometry, materials.bamboo);
+            mesh.castShadow = true;
+            return mesh;
+        };
+
+        // 构建简册
+        const scroll = new THREE.Group();
+        for(let i=0; i<20; i++) {
+            const strip = createBambooStrip();
+            strip.position.y = i * 0.35;
+            scroll.add(strip);
+        }
+        scene.add(scroll);
+
+        // 光照系统
+        const addLighting = () => {
+            const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+            const directional = new THREE.DirectionalLight(0xffffff, 0.6);
+            directional.position.set(5, 5, 5);
+            directional.castShadow = true;
+            scene.add(ambient, directional);
+        };
+
+        // 交互控制
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        camera.position.z = 15;
+
+        // 响应式适配
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // 动画循环
+        const animate = () => {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        };
+
+        addLighting();
+        animate();
+    </script>
+</body>
+</html>
