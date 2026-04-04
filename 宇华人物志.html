@@ -26,6 +26,7 @@
             overflow-x: hidden;
             min-height: 100vh;
         }
+        /* 开场动画 */
         .hero-screen {
             position: fixed;
             top: 0;
@@ -98,6 +99,7 @@
             transition: opacity 1s ease 0.2s;
         }
         .main-content.visible { opacity: 1; }
+        /* 导航栏 */
         .nav-container {
             background: linear-gradient(to right, #1a1a1a 0%, #0a0a0a 100%);
             border-bottom: 2px solid var(--gold);
@@ -129,7 +131,7 @@
             color: var(--gold);
             letter-spacing: 2px;
         }
-        /* 搜索框样式 */
+        /* 搜索框 */
         .search-area {
             max-width: 600px;
             margin: 2rem auto 0;
@@ -178,39 +180,48 @@
             color: var(--gold-light);
             min-height: 2rem;
         }
+        /* 扇形卡片容器 */
         .cards-container {
-            max-width: 1300px;
-            margin: 2rem auto;
+            max-width: 1400px;
+            margin: 3rem auto;
             padding: 0 2rem;
+            perspective: 800px;
         }
         .heroes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 520px;
+            margin-top: 2rem;
         }
+        /* 每个卡片独立定位，通过 JS 动态设置 transform 实现扇形 */
         .hero-card {
+            position: absolute;
+            width: 260px;
             background: var(--card-bg);
-            border: 1px solid rgba(197, 160, 71, 0.2);
-            border-radius: 12px;
+            border: 2px solid rgba(197, 160, 71, 0.3);
+            border-radius: 20px;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: all 0.3s ease;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
-            display: block;
+            transform-origin: center bottom;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
         }
         .hero-card:hover {
-            transform: translateY(-8px);
+            transform: scale(1.08) translateY(-15px) !important;
             border-color: var(--gold);
-            box-shadow: 0 15px 35px rgba(197, 160, 71, 0.2);
+            box-shadow: 0 25px 40px rgba(197, 160, 71, 0.3);
+            z-index: 10;
         }
-        /* 高亮样式 */
         .hero-card.highlight {
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 20px rgba(197, 160, 71, 0.6);
-            transform: scale(1.02);
-            transition: all 0.3s;
+            border: 3px solid var(--gold);
+            box-shadow: 0 0 30px rgba(197, 160, 71, 0.8);
+            transform: scale(1.05) translateY(-10px) !important;
+            z-index: 20;
         }
         .card-img {
             height: 240px;
@@ -221,46 +232,49 @@
         }
         .card-img .hero-icon {
             font-size: 5rem;
-            opacity: 0.7;
+            opacity: 0.8;
             transition: all 0.3s;
         }
         .hero-card:hover .hero-icon {
-            transform: scale(1.05);
-            opacity: 1;
-            text-shadow: 0 0 8px var(--gold);
+            transform: scale(1.1);
+            text-shadow: 0 0 15px var(--gold);
         }
         .card-content {
-            padding: 1.5rem;
-            border-top: 1px solid rgba(197, 160, 71, 0.15);
+            padding: 1.2rem;
+            text-align: center;
+            border-top: 1px solid rgba(197, 160, 71, 0.2);
         }
         .hero-name {
             font-family: 'Cinzel', serif;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: var(--gold);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             letter-spacing: 1px;
         }
         .hero-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--gold-light);
-            margin-bottom: 1rem;
-            border-left: 2px solid var(--gold);
-            padding-left: 8px;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+            background: rgba(197, 160, 71, 0.15);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
         }
         .hero-desc {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-dim);
-            line-height: 1.5;
+            line-height: 1.4;
         }
         .card-footer {
-            margin-top: 1rem;
-            font-size: 0.8rem;
+            margin-top: 0.8rem;
+            font-size: 0.7rem;
             color: var(--gold);
-            text-align: right;
+            text-align: center;
             opacity: 0;
             transition: opacity 0.2s;
         }
         .hero-card:hover .card-footer { opacity: 1; }
+        /* 分页组件 */
         .fenye {
             display: flex;
             justify-content: center;
@@ -293,6 +307,7 @@
             font-family: 'Cinzel';
             font-size: 1.1rem;
         }
+        /* 粒子背景 */
         .particles {
             position: fixed;
             width: 100vw;
@@ -304,9 +319,9 @@
             position: absolute;
             background: rgba(197, 160, 71, 0.2);
             border-radius: 50%;
-            animation: li dong 10s infinite linear;
+            animation: floatParticle 10s infinite linear;
         }
-        @keyframes li dong {
+        @keyframes floatParticle {
             0% { transform: translateY(0) scale(1); opacity: 0; }
             50% { opacity: 0.6; transform: translateY(-30vh) scale(0.8);}
             100% { transform: translateY(0) scale(1); opacity: 0; }
@@ -320,15 +335,36 @@
             font-size: 0.85rem;
             color: var(--text-dim);
         }
-        @media (max-width: 768px) {
-            .hero-text h1 { font-size: 2.2rem; letter-spacing: 2px; }
-            .cards-container { padding: 0 1rem; }
-            .heroes-grid { gap: 1.2rem; }
-            .hero-name { font-size: 1.3rem; }
+        /* 响应式：小屏幕恢复垂直排列 */
+        @media (max-width: 900px) {
+            .heroes-grid {
+                flex-direction: column;
+                gap: 1.5rem;
+                min-height: auto;
+                position: static;
+            }
+            .hero-card {
+                position: relative !important;
+                width: 90% !important;
+                margin: 0 auto;
+                transform: none !important;
+                left: auto !important;
+                top: auto !important;
+            }
+            .hero-card:hover {
+                transform: scale(1.02) !important;
+            }
+            .cards-container {
+                margin: 1rem auto;
+            }
+            .hero-text h1 { font-size: 2rem; }
+        }
+        @media (max-width: 640px) {
+            .hero-name { font-size: 1.2rem; }
+            .card-img { height: 180px; }
+            .card-img .hero-icon { font-size: 3.5rem; }
             .back-btn { left: 1rem; padding: 0.3rem 0.7rem; font-size: 0.8rem; }
-            .fenye button { padding: 0.4rem 1rem; font-size: 0.8rem; }
-            .search-area { flex-direction: column; align-items: stretch; margin-top: 1rem; }
-            .search-btn { padding: 0.6rem; }
+            .search-area { flex-direction: column; }
         }
     </style>
 </head>
@@ -349,7 +385,6 @@
         <div class="nav-brand">宇华人物志</div>
     </nav>
 
-    <!-- 检索区域 -->
     <div class="search-area">
         <input type="text" id="sou_suo_kuang" class="search-input" placeholder="输入人物姓名... 例如：张明远" autocomplete="off">
         <button id="sou_suo_an_niu" class="search-btn">🔍 检索</button>
@@ -372,9 +407,8 @@
 </div>
 
 <script>
-    // 生成60个占位卡片，每页6张，共10页（示例数据，可替换真实人物）
+    // 生成60个占位卡片，每页4张，共15页（示例数据前10个有名字）
     const ren_wu_lie_biao = [];
-    // 为了演示检索效果，前6个给个名字示例，其余为“暂无”
     const shi_li_ming_zi = ["张明远", "林清瑶", "周子衡", "陈慕远", "苏晚亭", "赵天策", "李知意", "王惊鸿", "宋书瑶", "欧阳澈"];
     for (let i = 0; i < 60; i++) {
         let ming = "暂无";
@@ -396,7 +430,7 @@
         });
     }
 
-    const mei_ye_xian_shi = 6;
+    const mei_ye_xian_shi = 4;
     let dang_qian_ye = 1;
     let zong_ye_shu = Math.ceil(ren_wu_lie_biao.length / mei_ye_xian_shi);
 
@@ -408,10 +442,35 @@
     const sou_suo_an_niu = document.getElementById('sou_suo_an_niu');
     const jie_guo_ti_shi = document.getElementById('jie_guo_ti_shi');
 
-    // 存储当前高亮的卡片元素（用于清除旧高亮）
     let dang_qian_gao_liang = null;
 
-    // 渲染卡片（同时给每个卡片设置 data-name 属性用于检索）
+    // 应用扇形布局：根据卡片索引计算旋转角度和偏移
+    function ying_yong_shan_xing() {
+        const cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
+        const count = cards.length;
+        if (count === 0) return;
+        // 扇形参数：半径、起始角度、范围
+        const radius = 280;       // 半径(px)
+        const startAngle = -35;   // 起始角度(度)
+        const angleRange = 70;    // 总角度范围(度)
+        
+        cards.forEach((card, idx) => {
+            // 计算当前卡片在扇形中的角度（线性分布）
+            let angle = startAngle + (angleRange / (count - 1 || 1)) * idx;
+            // 转换为弧度
+            let rad = angle * Math.PI / 180;
+            // 计算偏移量（相对于容器中心）
+            let offsetX = Math.sin(rad) * radius;
+            let offsetY = Math.cos(rad) * radius * 0.8; // 垂直压缩一点，更像手牌
+            // 旋转卡片自身，使其朝向圆心（可选）
+            let rotateAngle = -angle * 0.6; // 轻微内旋
+            card.style.transform = `translate(${offsetX}px, ${-offsetY}px) rotate(${rotateAngle}deg)`;
+            card.style.left = `calc(50% - 130px)`; // 卡片半宽130px (260/2)
+            card.style.top = `calc(50% - 150px)`;   // 垂直居中基准
+            card.style.zIndex = idx;
+        });
+    }
+
     function xuan_ran_ka_pian() {
         const kai_shi = (dang_qian_ye - 1) * mei_ye_xian_shi;
         const jie_shu = kai_shi + mei_ye_xian_shi;
@@ -422,7 +481,6 @@
             const ka_pian = document.createElement('a');
             ka_pian.className = 'hero-card';
             ka_pian.href = ren.lian_jie;
-            // 保存人物姓名和原始索引（全局）
             ka_pian.setAttribute('data-name', ren.ming);
             ka_pian.setAttribute('data-global-index', kai_shi + idx);
             ka_pian.innerHTML = `
@@ -438,24 +496,26 @@
             `;
             wang_ge.appendChild(ka_pian);
         }
+        // 渲染完成后应用扇形布局（如果屏幕宽度大于900px）
+        if (window.innerWidth > 900) {
+            ying_yong_shan_xing();
+        }
         ye_ma_span.innerText = `第 ${dang_qian_ye} / ${zong_ye_shu} 页`;
         shang_btn.disabled = (dang_qian_ye === 1);
         xia_btn.disabled = (dang_qian_ye === zong_ye_shu);
-        // 清除高亮提示
         if (dang_qian_gao_liang) {
             dang_qian_gao_liang.classList.remove('highlight');
             dang_qian_gao_liang = null;
         }
     }
 
-    // 根据姓名检索并跳转
+    // 检索逻辑
     function jian_suo_ren_wu() {
         const guan_jian_ci = sou_suo_kuang.value.trim();
         if (guan_jian_ci === "") {
             jie_guo_ti_shi.innerText = "请输入要检索的姓名";
             return;
         }
-        // 模糊匹配（包含即可）
         const pi_pei_jie_guo = [];
         for (let i = 0; i < ren_wu_lie_biao.length; i++) {
             if (ren_wu_lie_biao[i].ming.includes(guan_jian_ci)) {
@@ -466,33 +526,27 @@
             jie_guo_ti_shi.innerText = `未找到包含“${guan_jian_ci}”的人物`;
             return;
         }
-        // 取第一个匹配结果
         const mu_biao = pi_pei_jie_guo[0];
         const mu_biao_quan_ju_suo_yin = mu_biao.index;
         const mu_biao_ye = Math.floor(mu_biao_quan_ju_suo_yin / mei_ye_xian_shi) + 1;
         
         jie_guo_ti_shi.innerText = `找到“${mu_biao.ming}”，位于第 ${mu_biao_ye} 页，正在跳转...`;
         
-        // 如果已经在目标页，直接高亮滚动；否则切换页码后高亮
         if (dang_qian_ye === mu_biao_ye) {
             gao_liang_bing_gun_dong(mu_biao_quan_ju_suo_yin);
         } else {
             dang_qian_ye = mu_biao_ye;
             xuan_ran_ka_pian();
-            // 渲染完成后延迟执行高亮（DOM已更新）
             setTimeout(() => {
                 gao_liang_bing_gun_dong(mu_biao_quan_ju_suo_yin);
             }, 100);
         }
     }
 
-    // 高亮并滚动到指定全局索引的卡片
     function gao_liang_bing_gun_dong(quan_ju_suo_yin) {
-        // 清除旧高亮
         if (dang_qian_gao_liang) {
             dang_qian_gao_liang.classList.remove('highlight');
         }
-        // 在当前页中查找 data-global-index 匹配的卡片
         const all_cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
         let target_card = null;
         for (let card of all_cards) {
@@ -504,9 +558,7 @@
         if (target_card) {
             target_card.classList.add('highlight');
             dang_qian_gao_liang = target_card;
-            // 滚动到卡片位置
             target_card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            // 3秒后自动移除高亮
             setTimeout(() => {
                 if (dang_qian_gao_liang === target_card) {
                     target_card.classList.remove('highlight');
@@ -539,6 +591,13 @@
             xuan_ran_ka_pian();
             window.scrollTo({ top: 0, behavior: 'smooth' });
             jie_guo_ti_shi.innerText = "";
+        }
+    });
+
+    // 监听窗口大小变化，重新应用扇形布局
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 900 && wang_ge.children.length > 0) {
+            ying_yong_shan_xing();
         }
     });
 
