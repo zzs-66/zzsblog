@@ -26,7 +26,6 @@
             overflow-x: hidden;
             min-height: 100vh;
         }
-        /* 开场动画 */
         .hero-screen {
             position: fixed;
             top: 0;
@@ -87,7 +86,7 @@
             right: 0;
             text-align: center;
             font-size: 0.8rem;
-            color: rgba(197, 160, 71, 0.6);
+            color: rgba(197, 160, 71, 0.5);
             font-family: 'Open Sans';
             letter-spacing: 1px;
             cursor: pointer;
@@ -99,7 +98,6 @@
             transition: opacity 1s ease 0.2s;
         }
         .main-content.visible { opacity: 1; }
-        /* 导航栏 */
         .nav-container {
             background: linear-gradient(to right, #1a1a1a 0%, #0a0a0a 100%);
             border-bottom: 2px solid var(--gold);
@@ -131,7 +129,6 @@
             color: var(--gold);
             letter-spacing: 2px;
         }
-        /* 搜索框 */
         .search-area {
             max-width: 600px;
             margin: 2rem auto 0;
@@ -180,23 +177,18 @@
             color: var(--gold-light);
             min-height: 2rem;
         }
-        /* 扇形容器：底部对齐，flex 居中 */
         .cards-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 3rem auto;
             padding: 0 2rem;
-            overflow-x: auto;
         }
         .heroes-grid {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            gap: 0.5rem;
-            min-height: 520px;
-            padding-bottom: 1rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 1.5rem;
         }
         .hero-card {
-            width: 240px;
             background: var(--card-bg);
             border: 2px solid rgba(197, 160, 71, 0.3);
             border-radius: 20px;
@@ -205,32 +197,27 @@
             cursor: pointer;
             text-decoration: none;
             color: inherit;
-            transform-origin: bottom center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             backdrop-filter: blur(2px);
-            flex-shrink: 0;
         }
         .hero-card:hover {
-            transform: scale(1.05) translateY(-15px) !important;
+            transform: translateY(-8px);
             border-color: var(--gold);
-            box-shadow: 0 25px 40px rgba(197, 160, 71, 0.3);
-            z-index: 10;
+            box-shadow: 0 20px 30px rgba(197, 160, 71, 0.2);
         }
         .hero-card.highlight {
             border: 3px solid var(--gold);
             box-shadow: 0 0 30px rgba(197, 160, 71, 0.8);
-            transform: scale(1.02) translateY(-8px) !important;
-            z-index: 20;
+            transform: scale(1.02);
         }
         .card-img {
-            height: 220px;
+            height: 240px;
             background: linear-gradient(145deg, #2a2a2a 0%, #111 100%);
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .card-img .hero-icon {
-            font-size: 4.5rem;
+            font-size: 5rem;
             opacity: 0.8;
             transition: all 0.3s;
         }
@@ -239,33 +226,33 @@
             text-shadow: 0 0 15px var(--gold);
         }
         .card-content {
-            padding: 1rem;
+            padding: 1.2rem;
             text-align: center;
             border-top: 1px solid rgba(197, 160, 71, 0.2);
         }
         .hero-name {
             font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: var(--gold);
             margin-bottom: 0.3rem;
             letter-spacing: 1px;
         }
         .hero-title {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--gold-light);
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.8rem;
             display: inline-block;
             background: rgba(197, 160, 71, 0.15);
-            padding: 0.2rem 0.6rem;
+            padding: 0.2rem 0.8rem;
             border-radius: 30px;
         }
         .hero-desc {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: var(--text-dim);
             line-height: 1.4;
         }
         .card-footer {
-            margin-top: 0.6rem;
+            margin-top: 0.8rem;
             font-size: 0.7rem;
             color: var(--gold);
             text-align: center;
@@ -278,7 +265,7 @@
             justify-content: center;
             align-items: center;
             gap: 2rem;
-            margin: 2rem auto 1rem;
+            margin: 3rem auto 1rem;
         }
         .fenye button {
             background: transparent;
@@ -332,28 +319,20 @@
             font-size: 0.85rem;
             color: var(--text-dim);
         }
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
             .heroes-grid {
-                flex-direction: column;
-                align-items: center;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1.5rem;
             }
-            .hero-card {
-                transform: none !important;
-                width: 90%;
-                max-width: 320px;
-            }
-            .hero-card:hover {
-                transform: scale(1.02) !important;
-            }
-            .cards-container {
-                margin: 1rem auto;
-            }
-            .hero-text h1 { font-size: 2rem; }
         }
         @media (max-width: 640px) {
-            .hero-name { font-size: 1.2rem; }
-            .card-img { height: 180px; }
+            .heroes-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-text h1 { font-size: 2rem; }
+            .cards-container { padding: 0 1rem; }
+            .hero-name { font-size: 1.3rem; }
+            .card-img { height: 200px; }
             .card-img .hero-icon { font-size: 3.5rem; }
             .back-btn { left: 1rem; padding: 0.3rem 0.7rem; font-size: 0.8rem; }
             .search-area { flex-direction: column; }
@@ -361,363 +340,241 @@
     </style>
 </head>
 <body>
-<div class="particles" id="li_zi_beijing"></div>
+<div class="particles" id="particlesBg"></div>
 
-<div class="hero-screen" id="kai_chang_ping">
+<div class="hero-screen" id="heroScreen">
     <div class="hero-text">
         <h1>请选择你的英雄</h1>
         <div class="hero-sub">✦ 宇华 · 英杰录 ✦</div>
     </div>
-    <div class="skip-hint" id="tiao_guo_an_shi">🎺 轻触任意处 聆听英雄号角 🎺</div>
+    <div class="skip-hint" id="skipHint">⚔️ 轻触任意处 进入殿堂 ⚔️</div>
 </div>
 
-<div class="main-content" id="zhu_nei_rong">
+<div class="main-content" id="mainContent">
     <nav class="nav-container">
         <a href="index.html" class="back-btn">‹ 返回主殿</a>
         <div class="nav-brand">宇华人物志</div>
     </nav>
 
     <div class="search-area">
-        <input type="text" id="sou_suo_kuang" class="search-input" placeholder="输入人物姓名... 例如：张明远" autocomplete="off">
-        <button id="sou_suo_an_niu" class="search-btn">🔍 检索</button>
+        <input type="text" id="searchInput" class="search-input" placeholder="输入人物姓名... 例如：张明远" autocomplete="off">
+        <button id="searchBtn" class="search-btn">🔍 检索</button>
     </div>
-    <div id="jie_guo_ti_shi" class="search-result-msg"></div>
+    <div id="resultMsg" class="search-result-msg"></div>
 
     <div class="cards-container">
-        <div class="heroes-grid" id="ren_wu_wang_ge"></div>
-        <div class="fenye" id="fen_ye_qu">
-            <button id="shang_yi_ye">◀ 上一页</button>
-            <span class="ye-ma" id="ye_ma_xian_shi">第 1 / 1 页</span>
-            <button id="xia_yi_ye">下一页 ▶</button>
+        <div class="heroes-grid" id="heroGrid"></div>
+        <div class="fenye" id="pagination">
+            <button id="prevBtn">◀ 上一页</button>
+            <span class="ye-ma" id="pageInfo">第 1 / 1 页</span>
+            <button id="nextBtn">下一页 ▶</button>
         </div>
     </div>
 
     <footer>
         <p>© 宇华录 · 群星闪耀时</p>
-        <p style="font-size:0.75rem; margin-top:0.5rem;">点击卡片，聆听他们的故事</p>
+        <p style="font-size:0.75rem; margin-top:0.5rem;">"群贤毕至，少长咸集。"</p>
     </footer>
 </div>
 
 <script>
-    // ---------- 音效生成（英雄登场：低音鼓+铙钹）----------
-    let yin_xiao_ctx = null;
-    let yin_xiao_ready = false;
+    const renWuList = [
+        { ming: "张震", chengHao: "大胃袋", jianJie: "最猎奇之人。", lianJie: "张震.html", tuBiao: "🍔" },
+        { ming: "吴从睿", chengHao: "火男", jianJie: "神秘屁王。", lianJie: "#吴从睿.html", tuBiao: "🔥" },
+        { ming: "武照森", chengHao: "暂无", jianJie: "最炫压抑之人", lianJie: "武照森.html", tuBiao: "👦" },
+        { ming: "张超帆", chengHao: "张志超", jianJie: "依旧凌晨四点。", lianJie: "张超帆.html", tuBiao: "🧑" },
+        { ming: "胡建勋", chengHao: "关羽", jianJie: "自带手电筒之人。", lianJie: "胡建勋.html", tuBiao: "🐴" },
+        { ming: "邢艺严", chengHao: "蒋介石", jianJie: "海岛最锋利的剑。", lianJie: "#", tuBiao: "👨‍🦲" },
+        { ming: "陈墨然", chengHao: "刀哥", jianJie: "不知会不会咬打火机。", lianJie: "#", tuBiao: "🐶" },
+        { ming: "王世阳", chengHao: "鸡哥", jianJie: "最高之人。", lianJie: "#", tuBiao: "🐔" },
+        { ming: "张奥运", chengHao: "暂无", jianJie: "最呆之人。", lianJie: "#", tuBiao: "🏅" },
+        { ming: "李光耀", chengHao: "暂无", jianJie: "最会画本之人。", lianJie: "#", tuBiao: "🎨" }
+    ];
 
-    function bo_fang_yin_xiao() {
-        if (yin_xiao_ready) return;
-        try {
-            // 创建 AudioContext（需用户手势后启动）
-            if (!yin_xiao_ctx) {
-                yin_xiao_ctx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            // 如果 context 是 suspended 状态，则先恢复
-            if (yin_xiao_ctx.state === 'suspended') {
-                yin_xiao_ctx.resume().then(() => {
-                    playSound();
-                });
-            } else {
-                playSound();
-            }
-            yin_xiao_ready = true;
-        } catch(e) { console.warn("音效不支持", e); }
-    }
-
-    function playSound() {
-        if (!yin_xiao_ctx) return;
-        const now = yin_xiao_ctx.currentTime;
-        // 低音鼓：短促衰减的正弦波（低频）
-        const osc1 = yin_xiao_ctx.createOscillator();
-        const gain1 = yin_xiao_ctx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.value = 100;
-        gain1.gain.value = 0.6;
-        gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
-        osc1.connect(gain1);
-        gain1.connect(yin_xiao_ctx.destination);
-        osc1.start();
-        osc1.stop(now + 0.5);
-        
-        // 高频铙钹：白噪音短促脉冲
-        const bufferSize = 4096;
-        const noiseNode = yin_xiao_ctx.createScriptProcessor(bufferSize, 1, 1);
-        noiseNode.onaudioprocess = function(e) {
-            const output = e.outputBuffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                output[i] = (Math.random() * 2 - 1) * 0.3;
-            }
-        };
-        const noiseGain = yin_xiao_ctx.createGain();
-        noiseGain.gain.value = 0.4;
-        noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
-        noiseNode.connect(noiseGain);
-        noiseGain.connect(yin_xiao_ctx.destination);
-        noiseNode.start(now);
-        noiseNode.stop(now + 0.2);
-        
-        // 同时加一点泛音
-        const osc2 = yin_xiao_ctx.createOscillator();
-        const gain2 = yin_xiao_ctx.createGain();
-        osc2.type = 'triangle';
-        osc2.frequency.value = 400;
-        gain2.gain.value = 0.2;
-        gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
-        osc2.connect(gain2);
-        gain2.connect(yin_xiao_ctx.destination);
-        osc2.start();
-        osc2.stop(now + 0.3);
-    }
-
-    // ---------- 人物数据 ----------
-    const ren_wu_lie_biao = [];
-    const shi_li_ming_zi = ["张明远", "林清瑶", "周子衡", "陈慕远", "苏晚亭", "赵天策", "李知意", "王惊鸿", "宋书瑶", "欧阳澈"];
-    for (let i = 0; i < 60; i++) {
-        let ming = "暂无";
-        let cheng_hao = "暂无";
-        let jian_jie = "暂无";
-        let tu_biao = "❓";
-        if (i < shi_li_ming_zi.length) {
-            ming = shi_li_ming_zi[i];
-            cheng_hao = "宇华英杰";
-            jian_jie = "暂未录入详细事迹，敬请期待。";
-            tu_biao = "✨";
-        }
-        ren_wu_lie_biao.push({
-            ming: ming,
-            cheng_hao: cheng_hao,
-            jian_jie: jian_jie,
-            lian_jie: "#",
-            tu_biao: tu_biao
+    for (let i = renWuList.length; i < 60; i++) {
+        renWuList.push({
+            ming: "暂无",
+            chengHao: "暂无",
+            jianJie: "暂无",
+            lianJie: "#",
+            tuBiao: "❓"
         });
     }
 
-    const mei_ye_xian_shi = 4;
-    let dang_qian_ye = 1;
-    let zong_ye_shu = Math.ceil(ren_wu_lie_biao.length / mei_ye_xian_shi);
+    const pageSize = 4;
+    let currentPage = 1;
+    let totalPages = Math.ceil(renWuList.length / pageSize);
 
-    const wang_ge = document.getElementById('ren_wu_wang_ge');
-    const shang_btn = document.getElementById('shang_yi_ye');
-    const xia_btn = document.getElementById('xia_yi_ye');
-    const ye_ma_span = document.getElementById('ye_ma_xian_shi');
-    const sou_suo_kuang = document.getElementById('sou_suo_kuang');
-    const sou_suo_an_niu = document.getElementById('sou_suo_an_niu');
-    const jie_guo_ti_shi = document.getElementById('jie_guo_ti_shi');
+    const heroGrid = document.getElementById('heroGrid');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInfo = document.getElementById('pageInfo');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const resultMsg = document.getElementById('resultMsg');
 
-    let dang_qian_gao_liang = null;
+    let currentHighlight = null;
 
-    // 扇形旋转（不重叠）
-    function ying_yong_shan_xing() {
-        const cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
-        const count = cards.length;
-        if (count === 0) return;
-        let jiao_du_list = [];
-        if (count === 1) jiao_du_list = [0];
-        else if (count === 2) jiao_du_list = [-12, 12];
-        else if (count === 3) jiao_du_list = [-15, 0, 15];
-        else jiao_du_list = [-18, -6, 6, 18];
-        if (count < jiao_du_list.length) jiao_du_list = jiao_du_list.slice(0, count);
-        cards.forEach((card, idx) => {
-            let deg = jiao_du_list[idx] || 0;
-            card.style.transform = `rotate(${deg}deg)`;
-        });
-    }
-
-    function applyHoverEffect() {
-        const cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
-        cards.forEach(card => {
-            let baseTransform = card.style.transform;
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = `${baseTransform} scale(1.05) translateY(-15px)`;
-                card.style.zIndex = '10';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = baseTransform;
-                card.style.zIndex = '';
-            });
-        });
-    }
-
-    function xuan_ran_ka_pian() {
-        const kai_shi = (dang_qian_ye - 1) * mei_ye_xian_shi;
-        const jie_shu = kai_shi + mei_ye_xian_shi;
-        const dang_qian_lie_biao = ren_wu_lie_biao.slice(kai_shi, jie_shu);
-        wang_ge.innerHTML = '';
-        for (let idx = 0; idx < dang_qian_lie_biao.length; idx++) {
-            const ren = dang_qian_lie_biao[idx];
-            const ka_pian = document.createElement('a');
-            ka_pian.className = 'hero-card';
-            ka_pian.href = ren.lian_jie;
-            ka_pian.setAttribute('data-name', ren.ming);
-            ka_pian.setAttribute('data-global-index', kai_shi + idx);
-            ka_pian.innerHTML = `
+    function renderCards() {
+        const start = (currentPage - 1) * pageSize;
+        const end = start + pageSize;
+        const pageData = renWuList.slice(start, end);
+        heroGrid.innerHTML = '';
+        for (let i = 0; i < pageData.length; i++) {
+            const p = pageData[i];
+            const card = document.createElement('a');
+            card.className = 'hero-card';
+            card.href = p.lianJie;
+            card.setAttribute('data-name', p.ming);
+            card.setAttribute('data-global-index', start + i);
+            card.innerHTML = `
                 <div class="card-img">
-                    <div class="hero-icon">${ren.tu_biao}</div>
+                    <div class="hero-icon">${p.tuBiao}</div>
                 </div>
                 <div class="card-content">
-                    <div class="hero-name">${ren.ming}</div>
-                    <div class="hero-title">${ren.cheng_hao}</div>
-                    <div class="hero-desc">${ren.jian_jie}</div>
+                    <div class="hero-name">${p.ming}</div>
+                    <div class="hero-title">${p.chengHao}</div>
+                    <div class="hero-desc">${p.jianJie}</div>
                     <div class="card-footer">⟶ 查看英杰录</div>
                 </div>
             `;
-            wang_ge.appendChild(ka_pian);
+            heroGrid.appendChild(card);
         }
-        if (window.innerWidth > 900) {
-            ying_yong_shan_xing();
-            applyHoverEffect();
-        }
-        ye_ma_span.innerText = `第 ${dang_qian_ye} / ${zong_ye_shu} 页`;
-        shang_btn.disabled = (dang_qian_ye === 1);
-        xia_btn.disabled = (dang_qian_ye === zong_ye_shu);
-        if (dang_qian_gao_liang) {
-            dang_qian_gao_liang.classList.remove('highlight');
-            dang_qian_gao_liang = null;
+        pageInfo.innerText = `第 ${currentPage} / ${totalPages} 页`;
+        prevBtn.disabled = (currentPage === 1);
+        nextBtn.disabled = (currentPage === totalPages);
+        if (currentHighlight) {
+            currentHighlight.classList.remove('highlight');
+            currentHighlight = null;
         }
     }
 
-    // 检索
-    function jian_suo_ren_wu() {
-        const guan_jian_ci = sou_suo_kuang.value.trim();
-        if (guan_jian_ci === "") {
-            jie_guo_ti_shi.innerText = "请输入要检索的姓名";
+    function searchPerson() {
+        const keyword = searchInput.value.trim();
+        if (keyword === "") {
+            resultMsg.innerText = "请输入要检索的姓名";
             return;
         }
-        const pi_pei_jie_guo = [];
-        for (let i = 0; i < ren_wu_lie_biao.length; i++) {
-            if (ren_wu_lie_biao[i].ming.includes(guan_jian_ci)) {
-                pi_pei_jie_guo.push({ index: i, ming: ren_wu_lie_biao[i].ming });
+        const matches = [];
+        for (let i = 0; i < renWuList.length; i++) {
+            if (renWuList[i].ming.includes(keyword)) {
+                matches.push({ index: i, name: renWuList[i].ming });
             }
         }
-        if (pi_pei_jie_guo.length === 0) {
-            jie_guo_ti_shi.innerText = `未找到包含“${guan_jian_ci}”的人物`;
+        if (matches.length === 0) {
+            resultMsg.innerText = `未找到包含“${keyword}”的人物`;
             return;
         }
-        const mu_biao = pi_pei_jie_guo[0];
-        const mu_biao_quan_ju_suo_yin = mu_biao.index;
-        const mu_biao_ye = Math.floor(mu_biao_quan_ju_suo_yin / mei_ye_xian_shi) + 1;
-        jie_guo_ti_shi.innerText = `找到“${mu_biao.ming}”，位于第 ${mu_biao_ye} 页，正在跳转...`;
-        if (dang_qian_ye === mu_biao_ye) {
-            gao_liang_bing_gun_dong(mu_biao_quan_ju_suo_yin);
+        const target = matches[0];
+        const targetPage = Math.floor(target.index / pageSize) + 1;
+        resultMsg.innerText = `找到“${target.name}”，位于第 ${targetPage} 页，正在跳转...`;
+        if (currentPage === targetPage) {
+            highlightAndScroll(target.index);
         } else {
-            dang_qian_ye = mu_biao_ye;
-            xuan_ran_ka_pian();
+            currentPage = targetPage;
+            renderCards();
             setTimeout(() => {
-                gao_liang_bing_gun_dong(mu_biao_quan_ju_suo_yin);
+                highlightAndScroll(target.index);
             }, 100);
         }
     }
 
-    function gao_liang_bing_gun_dong(quan_ju_suo_yin) {
-        if (dang_qian_gao_liang) {
-            dang_qian_gao_liang.classList.remove('highlight');
+    function highlightAndScroll(globalIndex) {
+        if (currentHighlight) {
+            currentHighlight.classList.remove('highlight');
         }
-        const all_cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
-        let target_card = null;
-        for (let card of all_cards) {
-            if (parseInt(card.getAttribute('data-global-index')) === quan_ju_suo_yin) {
-                target_card = card;
+        const cards = document.querySelectorAll('#heroGrid .hero-card');
+        let targetCard = null;
+        for (let card of cards) {
+            if (parseInt(card.getAttribute('data-global-index')) === globalIndex) {
+                targetCard = card;
                 break;
             }
         }
-        if (target_card) {
-            target_card.classList.add('highlight');
-            dang_qian_gao_liang = target_card;
-            target_card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (targetCard) {
+            targetCard.classList.add('highlight');
+            currentHighlight = targetCard;
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
             setTimeout(() => {
-                if (dang_qian_gao_liang === target_card) {
-                    target_card.classList.remove('highlight');
-                    dang_qian_gao_liang = null;
+                if (currentHighlight === targetCard) {
+                    targetCard.classList.remove('highlight');
+                    currentHighlight = null;
                 }
             }, 3000);
-            jie_guo_ti_shi.innerText = `已定位到“${target_card.getAttribute('data-name')}”，高亮3秒`;
+            resultMsg.innerText = `已定位到“${targetCard.getAttribute('data-name')}”，高亮3秒`;
         } else {
-            jie_guo_ti_shi.innerText = "定位失败，请重试";
+            resultMsg.innerText = "定位失败，请重试";
         }
     }
 
-    sou_suo_an_niu.addEventListener('click', jian_suo_ren_wu);
-    sou_suo_kuang.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') jian_suo_ren_wu();
+    searchBtn.addEventListener('click', searchPerson);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchPerson();
     });
 
-    shang_btn.addEventListener('click', () => {
-        if (dang_qian_ye > 1) {
-            dang_qian_ye--;
-            xuan_ran_ka_pian();
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderCards();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            jie_guo_ti_shi.innerText = "";
+            resultMsg.innerText = "";
         }
     });
-    xia_btn.addEventListener('click', () => {
-        if (dang_qian_ye < zong_ye_shu) {
-            dang_qian_ye++;
-            xuan_ran_ka_pian();
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderCards();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            jie_guo_ti_shi.innerText = "";
+            resultMsg.innerText = "";
         }
     });
 
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 900 && wang_ge.children.length > 0) {
-            ying_yong_shan_xing();
-            applyHoverEffect();
-        }
-    });
-
-    // 粒子
-    function chuang_jian_li_zi() {
-        const fu = document.getElementById('li_zi_beijing');
-        if (!fu) return;
+    function createParticles() {
+        const container = document.getElementById('particlesBg');
+        if (!container) return;
         for (let i = 0; i < 40; i++) {
-            const li = document.createElement('div');
-            li.className = 'particle';
-            const da_xiao = Math.random() * 3 + 1;
-            li.style.cssText = `
-                width: ${da_xiao}px;
-                height: ${da_xiao}px;
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            const size = Math.random() * 3 + 1;
+            particle.style.cssText = `
+                width: ${size}px;
+                height: ${size}px;
                 left: ${Math.random() * 100}%;
                 top: ${Math.random() * 100}%;
                 animation-duration: ${Math.random() * 8 + 4}s;
                 animation-delay: ${Math.random() * 5}s;
             `;
-            fu.appendChild(li);
+            container.appendChild(particle);
         }
     }
 
-    // 开屏过渡 + 音效
-    let guo_du_wan_cheng = false;
-    function kai_chang_guo_du() {
-        const ping = document.getElementById('kai_chang_ping');
-        const zhu = document.getElementById('zhu_nei_rong');
-        function wan_cheng() {
-            if (guo_du_wan_cheng) return;
-            guo_du_wan_cheng = true;
-            if (ping.classList.contains('fade-out')) return;
-            ping.classList.add('fade-out');
-            zhu.classList.add('visible');
-            setTimeout(() => { ping.style.display = 'none'; }, 1300);
+    function initHeroTransition() {
+        const screen = document.getElementById('heroScreen');
+        const main = document.getElementById('mainContent');
+        let finished = false;
+        function finish() {
+            if (finished) return;
+            finished = true;
+            if (screen.classList.contains('fade-out')) return;
+            screen.classList.add('fade-out');
+            main.classList.add('visible');
+            setTimeout(() => { screen.style.display = 'none'; }, 1300);
         }
-        // 3秒后自动完成（无音效）
-        let ding_shi = setTimeout(() => {
-            wan_cheng();
-        }, 3200);
-        // 用户点击时：播放音效 + 立即完成
-        function kuai_jie() {
-            if (guo_du_wan_cheng) return;
-            // 播放音效（仅第一次）
-            bo_fang_yin_xiao();
-            clearTimeout(ding_shi);
-            wan_cheng();
-            document.removeEventListener('click', kuai_jie);
-            document.removeEventListener('touchstart', kuai_jie);
+        const timer = setTimeout(finish, 3200);
+        function skip() {
+            clearTimeout(timer);
+            finish();
+            document.removeEventListener('click', skip);
+            document.removeEventListener('touchstart', skip);
         }
-        document.addEventListener('click', kuai_jie);
-        document.addEventListener('touchstart', kuai_jie);
+        document.addEventListener('click', skip);
+        document.addEventListener('touchstart', skip);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        chuang_jian_li_zi();
-        xuan_ran_ka_pian();
-        kai_chang_guo_du();
+        createParticles();
+        renderCards();
+        initHeroTransition();
     });
 </script>
 </body>
