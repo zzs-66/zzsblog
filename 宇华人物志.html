@@ -180,25 +180,24 @@
             color: var(--gold-light);
             min-height: 2rem;
         }
-        /* 扇形卡片容器 */
+        /* 扇形容器：底部对齐，flex 居中 */
         .cards-container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 3rem auto;
             padding: 0 2rem;
-            perspective: 800px;
+            overflow-x: auto;
         }
         .heroes-grid {
-            position: relative;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-end;   /* 底部对齐 */
+            gap: 0.5rem;            /* 卡片之间留微小间隙，防止旋转后重叠 */
             min-height: 520px;
-            margin-top: 2rem;
+            padding-bottom: 1rem;
         }
-        /* 每个卡片独立定位，通过 JS 动态设置 transform 实现扇形 */
+        /* 卡片样式：底部固定，通过旋转扇形展开 */
         .hero-card {
-            position: absolute;
-            width: 260px;
+            width: 240px;
             background: var(--card-bg);
             border: 2px solid rgba(197, 160, 71, 0.3);
             border-radius: 20px;
@@ -207,12 +206,15 @@
             cursor: pointer;
             text-decoration: none;
             color: inherit;
-            transform-origin: center bottom;
+            transform-origin: bottom center;  /* 以底部中心为旋转基点 */
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             backdrop-filter: blur(2px);
+            margin-bottom: 0;
+            flex-shrink: 0;
         }
+        /* 悬停效果：上浮放大，提高层级 */
         .hero-card:hover {
-            transform: scale(1.08) translateY(-15px) !important;
+            transform: scale(1.05) translateY(-15px) !important;
             border-color: var(--gold);
             box-shadow: 0 25px 40px rgba(197, 160, 71, 0.3);
             z-index: 10;
@@ -220,18 +222,18 @@
         .hero-card.highlight {
             border: 3px solid var(--gold);
             box-shadow: 0 0 30px rgba(197, 160, 71, 0.8);
-            transform: scale(1.05) translateY(-10px) !important;
+            transform: scale(1.02) translateY(-8px) !important;
             z-index: 20;
         }
         .card-img {
-            height: 240px;
+            height: 220px;
             background: linear-gradient(145deg, #2a2a2a 0%, #111 100%);
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .card-img .hero-icon {
-            font-size: 5rem;
+            font-size: 4.5rem;
             opacity: 0.8;
             transition: all 0.3s;
         }
@@ -240,33 +242,33 @@
             text-shadow: 0 0 15px var(--gold);
         }
         .card-content {
-            padding: 1.2rem;
+            padding: 1rem;
             text-align: center;
             border-top: 1px solid rgba(197, 160, 71, 0.2);
         }
         .hero-name {
             font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: var(--gold);
             margin-bottom: 0.3rem;
             letter-spacing: 1px;
         }
         .hero-title {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--gold-light);
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.6rem;
             display: inline-block;
             background: rgba(197, 160, 71, 0.15);
-            padding: 0.2rem 0.8rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 30px;
         }
         .hero-desc {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-dim);
             line-height: 1.4;
         }
         .card-footer {
-            margin-top: 0.8rem;
+            margin-top: 0.6rem;
             font-size: 0.7rem;
             color: var(--gold);
             text-align: center;
@@ -280,7 +282,7 @@
             justify-content: center;
             align-items: center;
             gap: 2rem;
-            margin: 3rem auto 1rem;
+            margin: 2rem auto 1rem;
         }
         .fenye button {
             background: transparent;
@@ -335,21 +337,17 @@
             font-size: 0.85rem;
             color: var(--text-dim);
         }
-        /* 响应式：小屏幕恢复垂直排列 */
+        /* 响应式：小屏幕取消扇形，改为垂直排列 */
         @media (max-width: 900px) {
             .heroes-grid {
                 flex-direction: column;
+                align-items: center;
                 gap: 1.5rem;
-                min-height: auto;
-                position: static;
             }
             .hero-card {
-                position: relative !important;
-                width: 90% !important;
-                margin: 0 auto;
                 transform: none !important;
-                left: auto !important;
-                top: auto !important;
+                width: 90%;
+                max-width: 320px;
             }
             .hero-card:hover {
                 transform: scale(1.02) !important;
@@ -444,30 +442,68 @@
 
     let dang_qian_gao_liang = null;
 
-    // 应用扇形布局：根据卡片索引计算旋转角度和偏移
+    // 应用底部扇形旋转（不重叠）
     function ying_yong_shan_xing() {
         const cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
         const count = cards.length;
         if (count === 0) return;
-        // 扇形参数：半径、起始角度、范围
-        const radius = 280;       // 半径(px)
-        const startAngle = -35;   // 起始角度(度)
-        const angleRange = 70;    // 总角度范围(度)
-        
+        // 扇形角度：4张卡片分别旋转 -18°, -6°, 6°, 18°（对称，不重叠）
+        let jiao_du_list = [];
+        if (count === 1) jiao_du_list = [0];
+        else if (count === 2) jiao_du_list = [-12, 12];
+        else if (count === 3) jiao_du_list = [-15, 0, 15];
+        else jiao_du_list = [-18, -6, 6, 18];
+        // 如果实际卡片数量小于4，截取对应数量的角度
+        if (count < jiao_du_list.length) {
+            jiao_du_list = jiao_du_list.slice(0, count);
+        }
         cards.forEach((card, idx) => {
-            // 计算当前卡片在扇形中的角度（线性分布）
-            let angle = startAngle + (angleRange / (count - 1 || 1)) * idx;
-            // 转换为弧度
-            let rad = angle * Math.PI / 180;
-            // 计算偏移量（相对于容器中心）
-            let offsetX = Math.sin(rad) * radius;
-            let offsetY = Math.cos(rad) * radius * 0.8; // 垂直压缩一点，更像手牌
-            // 旋转卡片自身，使其朝向圆心（可选）
-            let rotateAngle = -angle * 0.6; // 轻微内旋
-            card.style.transform = `translate(${offsetX}px, ${-offsetY}px) rotate(${rotateAngle}deg)`;
-            card.style.left = `calc(50% - 130px)`; // 卡片半宽130px (260/2)
-            card.style.top = `calc(50% - 150px)`;   // 垂直居中基准
-            card.style.zIndex = idx;
+            let deg = jiao_du_list[idx] || 0;
+            // 保留原有的其他transform（悬停时会有自己的transform），这里只设置基础旋转
+            card.style.transform = `rotate(${deg}deg)`;
+            // 确保没有其他transform覆盖，悬停时会在:hover中覆盖，但需要保留基础旋转
+            // 为了避免悬停时丢失旋转，在:hover中应该保留旋转角度再叠加
+            // 通过CSS !important 或者 JS 动态处理，简单做法：悬停时重新计算
+        });
+    }
+
+    // 增强悬停效果：保留旋转的同时添加上浮缩放
+    function attachHoverFix() {
+        const cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
+        cards.forEach(card => {
+            // 移除原有内联style中的transform，避免冲突，旋转已经由ying_yong_shan_xing设置
+            // 悬停时由CSS处理，但CSS会覆盖内联transform，所以需要确保CSS中保留旋转角度
+            // 解决方法：给每个卡片添加一个data-deg属性，然后在CSS中？
+            // 更简单：不依赖内联transform，而是使用CSS类来应用旋转。
+            // 我们改为通过添加style标签动态定义类。
+            const deg = card.style.transform.match(/rotate\(([-\d.]+)deg\)/);
+            if (deg && deg[1]) {
+                const angle = deg[1];
+                // 为每个卡片生成一个唯一类或内联样式，确保:hover时也能保留旋转
+                // 方案：在卡片上设置一个内联样式，但悬停时CSS的transform会覆盖，所以需要把旋转放到父级？
+                // 最佳：悬停时用JS临时处理，但为了简单，我们让CSS悬停效果不覆盖旋转，而是附加scale和translate。
+                // 修改CSS：.hero-card:hover 的 transform 应该保留原有旋转再叠加，但无法用纯CSS动态获取原有旋转值。
+                // 改用JS控制悬停：监听mouseenter/mouseleave，手动添加效果。
+                // 为了避免复杂，直接依赖CSS，放弃悬停时的旋转保留？但会破坏扇形效果。
+                // 更好的方案：不在CSS中定义hover的transform，改用JS。
+            }
+        });
+    }
+
+    // 简化：使用JS控制悬停效果，保留旋转。
+    function applyHoverEffect() {
+        const cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
+        cards.forEach(card => {
+            // 获取当前旋转值
+            let baseTransform = card.style.transform; // 如 "rotate(-18deg)"
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = `${baseTransform} scale(1.05) translateY(-15px)`;
+                card.style.zIndex = '10';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = baseTransform;
+                card.style.zIndex = '';
+            });
         });
     }
 
@@ -499,6 +535,7 @@
         // 渲染完成后应用扇形布局（如果屏幕宽度大于900px）
         if (window.innerWidth > 900) {
             ying_yong_shan_xing();
+            applyHoverEffect();
         }
         ye_ma_span.innerText = `第 ${dang_qian_ye} / ${zong_ye_shu} 页`;
         shang_btn.disabled = (dang_qian_ye === 1);
@@ -598,6 +635,7 @@
     window.addEventListener('resize', () => {
         if (window.innerWidth > 900 && wang_ge.children.length > 0) {
             ying_yong_shan_xing();
+            applyHoverEffect();
         }
     });
 
