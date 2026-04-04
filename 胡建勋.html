@@ -283,7 +283,7 @@
         }
         @media (max-width: 640px) {
             .container { padding: 0 1rem; }
-            .portrait { width: 240px; height: 240px; } 
+            .portrait { width: 240px; height: 240px; }
             .name { font-size: 1.8rem; }
             .deeds-grid { gap: 1rem; }
             .deed-item { padding: 0.6rem 1.2rem; width: auto; }
@@ -341,12 +341,11 @@
 </div>
 
 <script>
-  
     const personData = {
         name: "胡建勋",
         title: "关羽",
         bio: "屁王二代，马眼会亮之人，最闷骚之人，AAA牢大批发-胡总。",
-        avatar: "",   
+        avatar: "",
         deeds: [
             { name: "3h20屁", link: "#" },
             { name: "牢大批发", link: "#" },
@@ -370,7 +369,6 @@
         } else {
             img.style.display = 'none';
             placeholder.style.display = 'block';
-          
         }
 
         const deedsContainer = document.getElementById('deedsList');
@@ -429,14 +427,17 @@
         function skip() {
             clearTimeout(timer);
             finish();
-            document.removeEventListener('click', skip);
-            document.removeEventListener('touchstart', skip);
         }
-        document.addEventListener('click', skip);
-        document.addEventListener('touchstart', skip);
+        heroScreen.addEventListener('click', skip);
+        heroScreen.addEventListener('touchstart', skip);
+        const skipHint = document.getElementById('skipHint');
+        if (skipHint) {
+            skipHint.addEventListener('click', function(e) { e.stopPropagation(); skip(); });
+            skipHint.addEventListener('touchstart', function(e) { e.stopPropagation(); skip(); });
+        }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', function() {
         createParticles();
         loadPerson();
         initHeroTransition();
