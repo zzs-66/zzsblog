@@ -314,7 +314,7 @@
         <div class="portrait-section">
             <div class="portrait" id="portraitBox">
                 <img id="personImg" src="" alt="人物肖像" style="display:none;">
-                <img id="placeholderIcon" class="portrait-placeholder" src="默认头像.jpg" alt="暂无肖像">
+                <img id="placeholderIcon" class="portrait-placeholder" src="assets/images/holiday/hjx.jpg" alt="暂无肖像">
             </div>
         </div>
 
@@ -341,13 +341,12 @@
 </div>
 
 <script>
-    const DEFAULT_AVATAR = "默认头像.jpg";
-
+  
     const personData = {
         name: "胡建勋",
         title: "关羽",
         bio: "屁王二代，马眼会亮之人，最闷骚之人，AAA牢大批发-胡总。",
-        avatar: "",  
+        avatar: "",   
         deeds: [
             { name: "3h20屁", link: "#" },
             { name: "牢大批发", link: "#" },
@@ -371,7 +370,7 @@
         } else {
             img.style.display = 'none';
             placeholder.style.display = 'block';
-            placeholder.src = assets/images/holiday/hjx.jpg;  
+          
         }
 
         const deedsContainer = document.getElementById('deedsList');
