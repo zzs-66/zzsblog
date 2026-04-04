@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>宇华人物志 | 请选择你的英雄</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-bg: #0a0a0a;
+            --gold: #c5a047;
+            --gold-light: #e5d7a3;
+            --card-bg: #1a1a1a;
+            --text-light: #e5e5e5;
+            --text-dim: #999;
+        }
+        body {
+            background: var(--primary-bg);
+            color: var(--text-light);
+            font-family: 'Open Sans', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .hero-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 1.2s;
+        }
+        .hero-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .hero-text {
+            text-align: center;
+            transform: scale(0.9);
+            animation: heroGlow 1.5s ease-out forwards, heroScale 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+        }
+        @keyframes heroGlow {
+            0% { text-shadow: 0 0 0 rgba(197, 160, 71, 0); }
+            100% { text-shadow: 0 0 20px rgba(197, 160, 71, 0.6), 0 0 40px rgba(197, 160, 71, 0.3); }
+        }
+        @keyframes heroScale {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .hero-text h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #c5a047 0%, #f3e6b0 50%, #8a6f3d 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+        .hero-sub {
+            color: var(--gold-light);
+            font-family: 'Cinzel';
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.6s forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .skip-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(197, 160, 71, 0.5);
+            font-family: 'Open Sans';
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .skip-hint:hover { color: var(--gold); }
+        .main-content {
+            opacity: 0;
+            transition: opacity 1s ease 0.2s;
+        }
+        .main-content.visible { opacity: 1; }
+        .nav-container {
+            background: linear-gradient(to right, #1a1a1a 0%, #0a0a0a 100%);
+            border-bottom: 2px solid var(--gold);
+            padding: 1.2rem 0;
+            position: relative;
+        }
+        .back-btn {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            text-decoration: none;
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(197, 160, 71, 0.3);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .back-btn:hover {
+            background: rgba(197, 160, 71, 0.1);
+            transform: translateY(-50%) translateX(-5px);
+        }
+        .nav-brand {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+        /* 搜索框样式 */
+        .search-area {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            padding: 0 1rem;
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .search-input {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid rgba(197, 160, 71, 0.4);
+            padding: 0.8rem 1.2rem;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            color: var(--text-light);
+            border-radius: 40px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .search-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(197, 160, 71, 0.3);
+        }
+        .search-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.8rem 1.8rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: all 0.3s;
+        }
+        .search-btn:hover {
+            background: var(--gold);
+            color: #0a0a0a;
+            box-shadow: 0 0 12px rgba(197, 160, 71, 0.5);
+        }
+        .search-result-msg {
+            text-align: center;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--gold-light);
+            min-height: 2rem;
+        }
+        .cards-container {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .heroes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .hero-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(197, 160, 71, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .hero-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 35px rgba(197, 160, 71, 0.2);
+        }
+        /* 高亮样式 */
+        .hero-card.highlight {
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 20px rgba(197, 160, 71, 0.6);
+            transform: scale(1.02);
+            transition: all 0.3s;
+        }
+        .card-img {
+            height: 240px;
+            background: linear-gradient(145deg, #2a2a2a 0%, #111 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-img .hero-icon {
+            font-size: 5rem;
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+        .hero-card:hover .hero-icon {
+            transform: scale(1.05);
+            opacity: 1;
+            text-shadow: 0 0 8px var(--gold);
+        }
+        .card-content {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(197, 160, 71, 0.15);
+        }
+        .hero-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        .hero-title {
+            font-size: 0.85rem;
+            color: var(--gold-light);
+            margin-bottom: 1rem;
+            border-left: 2px solid var(--gold);
+            padding-left: 8px;
+        }
+        .hero-desc {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+        .card-footer {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--gold);
+            text-align: right;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .hero-card:hover .card-footer { opacity: 1; }
+        .fenye {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin: 3rem auto 1rem;
+        }
+        .fenye button {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 30px;
+        }
+        .fenye button:hover:not(:disabled) {
+            background: var(--gold);
+            color: #0a0a0a;
+            box-shadow: 0 0 12px rgba(197, 160, 71, 0.5);
+        }
+        .fenye button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .ye-ma {
+            color: var(--gold-light);
+            font-family: 'Cinzel';
+            font-size: 1.1rem;
+        }
+        .particles {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(197, 160, 71, 0.2);
+            border-radius: 50%;
+            animation: li dong 10s infinite linear;
+        }
+        @keyframes li dong {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 0.6; transform: translateY(-30vh) scale(0.8);}
+            100% { transform: translateY(0) scale(1); opacity: 0; }
+        }
+        footer {
+            background: var(--card-bg);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--gold);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; letter-spacing: 2px; }
+            .cards-container { padding: 0 1rem; }
+            .heroes-grid { gap: 1.2rem; }
+            .hero-name { font-size: 1.3rem; }
+            .back-btn { left: 1rem; padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+            .fenye button { padding: 0.4rem 1rem; font-size: 0.8rem; }
+            .search-area { flex-direction: column; align-items: stretch; margin-top: 1rem; }
+            .search-btn { padding: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="particles" id="li_zi_beijing"></div>
+
+<div class="hero-screen" id="kai_chang_ping">
+    <div class="hero-text">
+        <h1>请选择你的英雄</h1>
+        <div class="hero-sub">✦ 宇华 · 英杰录 ✦</div>
+    </div>
+    <div class="skip-hint" id="tiao_guo_an_shi">⚔️ 轻触任意处 进入殿堂 ⚔️</div>
+</div>
+
+<div class="main-content" id="zhu_nei_rong">
+    <nav class="nav-container">
+        <a href="index.html" class="back-btn">‹ 返回主殿</a>
+        <div class="nav-brand">宇华人物志</div>
+    </nav>
+
+    <!-- 检索区域 -->
+    <div class="search-area">
+        <input type="text" id="sou_suo_kuang" class="search-input" placeholder="输入人物姓名... 例如：张明远" autocomplete="off">
+        <button id="sou_suo_an_niu" class="search-btn">🔍 检索</button>
+    </div>
+    <div id="jie_guo_ti_shi" class="search-result-msg"></div>
+
+    <div class="cards-container">
+        <div class="heroes-grid" id="ren_wu_wang_ge"></div>
+        <div class="fenye" id="fen_ye_qu">
+            <button id="shang_yi_ye">◀ 上一页</button>
+            <span class="ye-ma" id="ye_ma_xian_shi">第 1 / 1 页</span>
+            <button id="xia_yi_ye">下一页 ▶</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 宇华录 · 群星闪耀时</p>
+        <p style="font-size:0.75rem; margin-top:0.5rem;">点击卡片，聆听他们的故事</p>
+    </footer>
+</div>
+
+<script>
+    // 生成60个占位卡片，每页6张，共10页（示例数据，可替换真实人物）
+    const ren_wu_lie_biao = [];
+    // 为了演示检索效果，前6个给个名字示例，其余为“暂无”
+    const shi_li_ming_zi = ["张明远", "林清瑶", "周子衡", "陈慕远", "苏晚亭", "赵天策", "李知意", "王惊鸿", "宋书瑶", "欧阳澈"];
+    for (let i = 0; i < 60; i++) {
+        let ming = "暂无";
+        let cheng_hao = "暂无";
+        let jian_jie = "暂无";
+        let tu_biao = "❓";
+        if (i < shi_li_ming_zi.length) {
+            ming = shi_li_ming_zi[i];
+            cheng_hao = "宇华英杰";
+            jian_jie = "暂未录入详细事迹，敬请期待。";
+            tu_biao = "✨";
+        }
+        ren_wu_lie_biao.push({
+            ming: ming,
+            cheng_hao: cheng_hao,
+            jian_jie: jian_jie,
+            lian_jie: "#",
+            tu_biao: tu_biao
+        });
+    }
+
+    const mei_ye_xian_shi = 6;
+    let dang_qian_ye = 1;
+    let zong_ye_shu = Math.ceil(ren_wu_lie_biao.length / mei_ye_xian_shi);
+
+    const wang_ge = document.getElementById('ren_wu_wang_ge');
+    const shang_btn = document.getElementById('shang_yi_ye');
+    const xia_btn = document.getElementById('xia_yi_ye');
+    const ye_ma_span = document.getElementById('ye_ma_xian_shi');
+    const sou_suo_kuang = document.getElementById('sou_suo_kuang');
+    const sou_suo_an_niu = document.getElementById('sou_suo_an_niu');
+    const jie_guo_ti_shi = document.getElementById('jie_guo_ti_shi');
+
+    // 存储当前高亮的卡片元素（用于清除旧高亮）
+    let dang_qian_gao_liang = null;
+
+    // 渲染卡片（同时给每个卡片设置 data-name 属性用于检索）
+    function xuan_ran_ka_pian() {
+        const kai_shi = (dang_qian_ye - 1) * mei_ye_xian_shi;
+        const jie_shu = kai_shi + mei_ye_xian_shi;
+        const dang_qian_lie_biao = ren_wu_lie_biao.slice(kai_shi, jie_shu);
+        wang_ge.innerHTML = '';
+        for (let idx = 0; idx < dang_qian_lie_biao.length; idx++) {
+            const ren = dang_qian_lie_biao[idx];
+            const ka_pian = document.createElement('a');
+            ka_pian.className = 'hero-card';
+            ka_pian.href = ren.lian_jie;
+            // 保存人物姓名和原始索引（全局）
+            ka_pian.setAttribute('data-name', ren.ming);
+            ka_pian.setAttribute('data-global-index', kai_shi + idx);
+            ka_pian.innerHTML = `
+                <div class="card-img">
+                    <div class="hero-icon">${ren.tu_biao}</div>
+                </div>
+                <div class="card-content">
+                    <div class="hero-name">${ren.ming}</div>
+                    <div class="hero-title">${ren.cheng_hao}</div>
+                    <div class="hero-desc">${ren.jian_jie}</div>
+                    <div class="card-footer">⟶ 查看英杰录</div>
+                </div>
+            `;
+            wang_ge.appendChild(ka_pian);
+        }
+        ye_ma_span.innerText = `第 ${dang_qian_ye} / ${zong_ye_shu} 页`;
+        shang_btn.disabled = (dang_qian_ye === 1);
+        xia_btn.disabled = (dang_qian_ye === zong_ye_shu);
+        // 清除高亮提示
+        if (dang_qian_gao_liang) {
+            dang_qian_gao_liang.classList.remove('highlight');
+            dang_qian_gao_liang = null;
+        }
+    }
+
+    // 根据姓名检索并跳转
+    function jian_suo_ren_wu() {
+        const guan_jian_ci = sou_suo_kuang.value.trim();
+        if (guan_jian_ci === "") {
+            jie_guo_ti_shi.innerText = "请输入要检索的姓名";
+            return;
+        }
+        // 模糊匹配（包含即可）
+        const pi_pei_jie_guo = [];
+        for (let i = 0; i < ren_wu_lie_biao.length; i++) {
+            if (ren_wu_lie_biao[i].ming.includes(guan_jian_ci)) {
+                pi_pei_jie_guo.push({ index: i, ming: ren_wu_lie_biao[i].ming });
+            }
+        }
+        if (pi_pei_jie_guo.length === 0) {
+            jie_guo_ti_shi.innerText = `未找到包含“${guan_jian_ci}”的人物`;
+            return;
+        }
+        // 取第一个匹配结果
+        const mu_biao = pi_pei_jie_guo[0];
+        const mu_biao_quan_ju_suo_yin = mu_biao.index;
+        const mu_biao_ye = Math.floor(mu_biao_quan_ju_suo_yin / mei_ye_xian_shi) + 1;
+        
+        jie_guo_ti_shi.innerText = `找到“${mu_biao.ming}”，位于第 ${mu_biao_ye} 页，正在跳转...`;
+        
+        // 如果已经在目标页，直接高亮滚动；否则切换页码后高亮
+        if (dang_qian_ye === mu_biao_ye) {
+            gao_liang_bing_gun_dong(mu_biao_quan_ju_suo_yin);
+        } else {
+            dang_qian_ye = mu_biao_ye;
+            xuan_ran_ka_pian();
+            // 渲染完成后延迟执行高亮（DOM已更新）
+            setTimeout(() => {
+                gao_liang_bing_gun_dong(mu_biao_quan_ju_suo_yin);
+            }, 100);
+        }
+    }
+
+    // 高亮并滚动到指定全局索引的卡片
+    function gao_liang_bing_gun_dong(quan_ju_suo_yin) {
+        // 清除旧高亮
+        if (dang_qian_gao_liang) {
+            dang_qian_gao_liang.classList.remove('highlight');
+        }
+        // 在当前页中查找 data-global-index 匹配的卡片
+        const all_cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
+        let target_card = null;
+        for (let card of all_cards) {
+            if (parseInt(card.getAttribute('data-global-index')) === quan_ju_suo_yin) {
+                target_card = card;
+                break;
+            }
+        }
+        if (target_card) {
+            target_card.classList.add('highlight');
+            dang_qian_gao_liang = target_card;
+            // 滚动到卡片位置
+            target_card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // 3秒后自动移除高亮
+            setTimeout(() => {
+                if (dang_qian_gao_liang === target_card) {
+                    target_card.classList.remove('highlight');
+                    dang_qian_gao_liang = null;
+                }
+            }, 3000);
+            jie_guo_ti_shi.innerText = `已定位到“${target_card.getAttribute('data-name')}”，高亮3秒`;
+        } else {
+            jie_guo_ti_shi.innerText = "定位失败，请重试";
+        }
+    }
+
+    // 事件绑定
+    sou_suo_an_niu.addEventListener('click', jian_suo_ren_wu);
+    sou_suo_kuang.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') jian_suo_ren_wu();
+    });
+
+    shang_btn.addEventListener('click', () => {
+        if (dang_qian_ye > 1) {
+            dang_qian_ye--;
+            xuan_ran_ka_pian();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            jie_guo_ti_shi.innerText = "";
+        }
+    });
+    xia_btn.addEventListener('click', () => {
+        if (dang_qian_ye < zong_ye_shu) {
+            dang_qian_ye++;
+            xuan_ran_ka_pian();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            jie_guo_ti_shi.innerText = "";
+        }
+    });
+
+    function chuang_jian_li_zi() {
+        const fu = document.getElementById('li_zi_beijing');
+        if (!fu) return;
+        for (let i = 0; i < 40; i++) {
+            const li = document.createElement('div');
+            li.className = 'particle';
+            const da_xiao = Math.random() * 3 + 1;
+            li.style.cssText = `
+                width: ${da_xiao}px;
+                height: ${da_xiao}px;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                animation-duration: ${Math.random() * 8 + 4}s;
+                animation-delay: ${Math.random() * 5}s;
+            `;
+            fu.appendChild(li);
+        }
+    }
+
+    function kai_chang_guo_du() {
+        const ping = document.getElementById('kai_chang_ping');
+        const zhu = document.getElementById('zhu_nei_rong');
+        function wan_cheng() {
+            if (ping.classList.contains('fade-out')) return;
+            ping.classList.add('fade-out');
+            zhu.classList.add('visible');
+            setTimeout(() => { ping.style.display = 'none'; }, 1300);
+        }
+        let ding_shi = setTimeout(wan_cheng, 3200);
+        function kuai_jie() {
+            clearTimeout(ding_shi);
+            wan_cheng();
+            document.removeEventListener('click', kuai_jie);
+            document.removeEventListener('touchstart', kuai_jie);
+        }
+        document.addEventListener('click', kuai_jie);
+        document.addEventListener('touchstart', kuai_jie);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        chuang_jian_li_zi();
+        xuan_ran_ka_pian();
+        kai_chang_guo_du();
+    });
+</script>
+</body>
+</html>
