@@ -87,7 +87,7 @@
             right: 0;
             text-align: center;
             font-size: 0.8rem;
-            color: rgba(197, 160, 71, 0.5);
+            color: rgba(197, 160, 71, 0.6);
             font-family: 'Open Sans';
             letter-spacing: 1px;
             cursor: pointer;
@@ -190,12 +190,11 @@
         .heroes-grid {
             display: flex;
             justify-content: center;
-            align-items: flex-end;   /* 底部对齐 */
-            gap: 0.5rem;            /* 卡片之间留微小间隙，防止旋转后重叠 */
+            align-items: flex-end;
+            gap: 0.5rem;
             min-height: 520px;
             padding-bottom: 1rem;
         }
-        /* 卡片样式：底部固定，通过旋转扇形展开 */
         .hero-card {
             width: 240px;
             background: var(--card-bg);
@@ -206,13 +205,11 @@
             cursor: pointer;
             text-decoration: none;
             color: inherit;
-            transform-origin: bottom center;  /* 以底部中心为旋转基点 */
+            transform-origin: bottom center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             backdrop-filter: blur(2px);
-            margin-bottom: 0;
             flex-shrink: 0;
         }
-        /* 悬停效果：上浮放大，提高层级 */
         .hero-card:hover {
             transform: scale(1.05) translateY(-15px) !important;
             border-color: var(--gold);
@@ -276,7 +273,6 @@
             transition: opacity 0.2s;
         }
         .hero-card:hover .card-footer { opacity: 1; }
-        /* 分页组件 */
         .fenye {
             display: flex;
             justify-content: center;
@@ -309,7 +305,6 @@
             font-family: 'Cinzel';
             font-size: 1.1rem;
         }
-        /* 粒子背景 */
         .particles {
             position: fixed;
             width: 100vw;
@@ -337,7 +332,6 @@
             font-size: 0.85rem;
             color: var(--text-dim);
         }
-        /* 响应式：小屏幕取消扇形，改为垂直排列 */
         @media (max-width: 900px) {
             .heroes-grid {
                 flex-direction: column;
@@ -374,7 +368,7 @@
         <h1>请选择你的英雄</h1>
         <div class="hero-sub">✦ 宇华 · 英杰录 ✦</div>
     </div>
-    <div class="skip-hint" id="tiao_guo_an_shi">⚔️ 轻触任意处 进入殿堂 ⚔️</div>
+    <div class="skip-hint" id="tiao_guo_an_shi">🎺 轻触任意处 聆听英雄号角 🎺</div>
 </div>
 
 <div class="main-content" id="zhu_nei_rong">
@@ -405,7 +399,75 @@
 </div>
 
 <script>
-    // 生成60个占位卡片，每页4张，共15页（示例数据前10个有名字）
+    // ---------- 音效生成（英雄登场：低音鼓+铙钹）----------
+    let yin_xiao_ctx = null;
+    let yin_xiao_ready = false;
+
+    function bo_fang_yin_xiao() {
+        if (yin_xiao_ready) return;
+        try {
+            // 创建 AudioContext（需用户手势后启动）
+            if (!yin_xiao_ctx) {
+                yin_xiao_ctx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            // 如果 context 是 suspended 状态，则先恢复
+            if (yin_xiao_ctx.state === 'suspended') {
+                yin_xiao_ctx.resume().then(() => {
+                    playSound();
+                });
+            } else {
+                playSound();
+            }
+            yin_xiao_ready = true;
+        } catch(e) { console.warn("音效不支持", e); }
+    }
+
+    function playSound() {
+        if (!yin_xiao_ctx) return;
+        const now = yin_xiao_ctx.currentTime;
+        // 低音鼓：短促衰减的正弦波（低频）
+        const osc1 = yin_xiao_ctx.createOscillator();
+        const gain1 = yin_xiao_ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.value = 100;
+        gain1.gain.value = 0.6;
+        gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+        osc1.connect(gain1);
+        gain1.connect(yin_xiao_ctx.destination);
+        osc1.start();
+        osc1.stop(now + 0.5);
+        
+        // 高频铙钹：白噪音短促脉冲
+        const bufferSize = 4096;
+        const noiseNode = yin_xiao_ctx.createScriptProcessor(bufferSize, 1, 1);
+        noiseNode.onaudioprocess = function(e) {
+            const output = e.outputBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = (Math.random() * 2 - 1) * 0.3;
+            }
+        };
+        const noiseGain = yin_xiao_ctx.createGain();
+        noiseGain.gain.value = 0.4;
+        noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+        noiseNode.connect(noiseGain);
+        noiseGain.connect(yin_xiao_ctx.destination);
+        noiseNode.start(now);
+        noiseNode.stop(now + 0.2);
+        
+        // 同时加一点泛音
+        const osc2 = yin_xiao_ctx.createOscillator();
+        const gain2 = yin_xiao_ctx.createGain();
+        osc2.type = 'triangle';
+        osc2.frequency.value = 400;
+        gain2.gain.value = 0.2;
+        gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.3);
+        osc2.connect(gain2);
+        gain2.connect(yin_xiao_ctx.destination);
+        osc2.start();
+        osc2.stop(now + 0.3);
+    }
+
+    // ---------- 人物数据 ----------
     const ren_wu_lie_biao = [];
     const shi_li_ming_zi = ["张明远", "林清瑶", "周子衡", "陈慕远", "苏晚亭", "赵天策", "李知意", "王惊鸿", "宋书瑶", "欧阳澈"];
     for (let i = 0; i < 60; i++) {
@@ -442,60 +504,27 @@
 
     let dang_qian_gao_liang = null;
 
-    // 应用底部扇形旋转（不重叠）
+    // 扇形旋转（不重叠）
     function ying_yong_shan_xing() {
         const cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
         const count = cards.length;
         if (count === 0) return;
-        // 扇形角度：4张卡片分别旋转 -18°, -6°, 6°, 18°（对称，不重叠）
         let jiao_du_list = [];
         if (count === 1) jiao_du_list = [0];
         else if (count === 2) jiao_du_list = [-12, 12];
         else if (count === 3) jiao_du_list = [-15, 0, 15];
         else jiao_du_list = [-18, -6, 6, 18];
-        // 如果实际卡片数量小于4，截取对应数量的角度
-        if (count < jiao_du_list.length) {
-            jiao_du_list = jiao_du_list.slice(0, count);
-        }
+        if (count < jiao_du_list.length) jiao_du_list = jiao_du_list.slice(0, count);
         cards.forEach((card, idx) => {
             let deg = jiao_du_list[idx] || 0;
-            // 保留原有的其他transform（悬停时会有自己的transform），这里只设置基础旋转
             card.style.transform = `rotate(${deg}deg)`;
-            // 确保没有其他transform覆盖，悬停时会在:hover中覆盖，但需要保留基础旋转
-            // 为了避免悬停时丢失旋转，在:hover中应该保留旋转角度再叠加
-            // 通过CSS !important 或者 JS 动态处理，简单做法：悬停时重新计算
         });
     }
 
-    // 增强悬停效果：保留旋转的同时添加上浮缩放
-    function attachHoverFix() {
-        const cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
-        cards.forEach(card => {
-            // 移除原有内联style中的transform，避免冲突，旋转已经由ying_yong_shan_xing设置
-            // 悬停时由CSS处理，但CSS会覆盖内联transform，所以需要确保CSS中保留旋转角度
-            // 解决方法：给每个卡片添加一个data-deg属性，然后在CSS中？
-            // 更简单：不依赖内联transform，而是使用CSS类来应用旋转。
-            // 我们改为通过添加style标签动态定义类。
-            const deg = card.style.transform.match(/rotate\(([-\d.]+)deg\)/);
-            if (deg && deg[1]) {
-                const angle = deg[1];
-                // 为每个卡片生成一个唯一类或内联样式，确保:hover时也能保留旋转
-                // 方案：在卡片上设置一个内联样式，但悬停时CSS的transform会覆盖，所以需要把旋转放到父级？
-                // 最佳：悬停时用JS临时处理，但为了简单，我们让CSS悬停效果不覆盖旋转，而是附加scale和translate。
-                // 修改CSS：.hero-card:hover 的 transform 应该保留原有旋转再叠加，但无法用纯CSS动态获取原有旋转值。
-                // 改用JS控制悬停：监听mouseenter/mouseleave，手动添加效果。
-                // 为了避免复杂，直接依赖CSS，放弃悬停时的旋转保留？但会破坏扇形效果。
-                // 更好的方案：不在CSS中定义hover的transform，改用JS。
-            }
-        });
-    }
-
-    // 简化：使用JS控制悬停效果，保留旋转。
     function applyHoverEffect() {
         const cards = document.querySelectorAll('#ren_wu_wang_ge .hero-card');
         cards.forEach(card => {
-            // 获取当前旋转值
-            let baseTransform = card.style.transform; // 如 "rotate(-18deg)"
+            let baseTransform = card.style.transform;
             card.addEventListener('mouseenter', () => {
                 card.style.transform = `${baseTransform} scale(1.05) translateY(-15px)`;
                 card.style.zIndex = '10';
@@ -532,7 +561,6 @@
             `;
             wang_ge.appendChild(ka_pian);
         }
-        // 渲染完成后应用扇形布局（如果屏幕宽度大于900px）
         if (window.innerWidth > 900) {
             ying_yong_shan_xing();
             applyHoverEffect();
@@ -546,7 +574,7 @@
         }
     }
 
-    // 检索逻辑
+    // 检索
     function jian_suo_ren_wu() {
         const guan_jian_ci = sou_suo_kuang.value.trim();
         if (guan_jian_ci === "") {
@@ -566,9 +594,7 @@
         const mu_biao = pi_pei_jie_guo[0];
         const mu_biao_quan_ju_suo_yin = mu_biao.index;
         const mu_biao_ye = Math.floor(mu_biao_quan_ju_suo_yin / mei_ye_xian_shi) + 1;
-        
         jie_guo_ti_shi.innerText = `找到“${mu_biao.ming}”，位于第 ${mu_biao_ye} 页，正在跳转...`;
-        
         if (dang_qian_ye === mu_biao_ye) {
             gao_liang_bing_gun_dong(mu_biao_quan_ju_suo_yin);
         } else {
@@ -608,7 +634,6 @@
         }
     }
 
-    // 事件绑定
     sou_suo_an_niu.addEventListener('click', jian_suo_ren_wu);
     sou_suo_kuang.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') jian_suo_ren_wu();
@@ -631,7 +656,6 @@
         }
     });
 
-    // 监听窗口大小变化，重新应用扇形布局
     window.addEventListener('resize', () => {
         if (window.innerWidth > 900 && wang_ge.children.length > 0) {
             ying_yong_shan_xing();
@@ -639,6 +663,7 @@
         }
     });
 
+    // 粒子
     function chuang_jian_li_zi() {
         const fu = document.getElementById('li_zi_beijing');
         if (!fu) return;
@@ -658,17 +683,28 @@
         }
     }
 
+    // 开屏过渡 + 音效
+    let guo_du_wan_cheng = false;
     function kai_chang_guo_du() {
         const ping = document.getElementById('kai_chang_ping');
         const zhu = document.getElementById('zhu_nei_rong');
         function wan_cheng() {
+            if (guo_du_wan_cheng) return;
+            guo_du_wan_cheng = true;
             if (ping.classList.contains('fade-out')) return;
             ping.classList.add('fade-out');
             zhu.classList.add('visible');
             setTimeout(() => { ping.style.display = 'none'; }, 1300);
         }
-        let ding_shi = setTimeout(wan_cheng, 3200);
+        // 3秒后自动完成（无音效）
+        let ding_shi = setTimeout(() => {
+            wan_cheng();
+        }, 3200);
+        // 用户点击时：播放音效 + 立即完成
         function kuai_jie() {
+            if (guo_du_wan_cheng) return;
+            // 播放音效（仅第一次）
+            bo_fang_yin_xiao();
             clearTimeout(ding_shi);
             wan_cheng();
             document.removeEventListener('click', kuai_jie);
