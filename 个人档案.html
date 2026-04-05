@@ -16,9 +16,11 @@
             --primary-bg: #0a0a0a;
             --gold: #c5a047;
             --gold-light: #e5d7a3;
-            --card-bg: #1a1a1a;
+            --glass-bg: rgba(26, 26, 26, 0.65);
+            --glass-border: rgba(197, 160, 71, 0.3);
+            --glass-highlight: rgba(197, 160, 71, 0.15);
             --text-light: #e5e5e5;
-            --text-dim: #999;
+            --text-dim: #ccc;
         }
         body {
             background: var(--primary-bg);
@@ -95,11 +97,15 @@
         .skip-hint:hover {
             color: var(--gold);
         }
+      
         .nav-container {
-            background: linear-gradient(to right, #1a1a1a 0%, #0a0a0a 100%);
-            border-bottom: 2px solid var(--gold);
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
             padding: 1.2rem 0;
             position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         .back-btn {
             font-family: 'Cinzel', serif;
@@ -110,14 +116,19 @@
             top: 50%;
             transform: translateY(-50%);
             padding: 0.5rem 1rem;
-            border: 1px solid rgba(197, 160, 71, 0.3);
-            border-radius: 3px;
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px);
             transition: all 0.3s ease;
             font-size: 0.9rem;
         }
         .back-btn:hover {
-            background: rgba(197, 160, 71, 0.1);
+            background: var(--gold);
+            color: #0a0a0a;
+            border-color: var(--gold);
             transform: translateY(-50%) translateX(-5px);
+            box-shadow: 0 0 12px rgba(197,160,71,0.4);
         }
         .nav-brand {
             text-align: center;
@@ -125,12 +136,14 @@
             font-size: 1.8rem;
             color: var(--gold);
             letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(197,160,71,0.3);
         }
         .container {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 2rem;
         }
+     
         .profile-header {
             display: flex;
             flex-wrap: wrap;
@@ -138,20 +151,23 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 4rem;
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 30px;
             padding: 2rem;
-            border: 1px solid rgba(197, 160, 71, 0.2);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.05);
         }
         .avatar-frame {
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            border: 3px solid var(--gold);
+            border: 2px solid var(--gold);
             overflow: hidden;
             box-shadow: 0 0 25px rgba(197,160,71,0.3);
             flex-shrink: 0;
+            background: rgba(0,0,0,0.3);
         }
         .avatar-frame img {
             width: 100%;
@@ -161,7 +177,7 @@
         .avatar-placeholder {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #2a2a2a, #111);
+            background: linear-gradient(135deg, rgba(42,42,42,0.8), rgba(17,17,17,0.8));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -178,6 +194,7 @@
             color: var(--gold);
             margin-bottom: 0.5rem;
             letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(197,160,71,0.4);
         }
         .profile-tagline {
             font-size: 1.1rem;
@@ -202,6 +219,10 @@
         }
         .stat-item {
             text-align: center;
+            background: rgba(0,0,0,0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
         }
         .stat-number {
             font-family: 'Cinzel', serif;
@@ -214,6 +235,7 @@
             color: var(--text-dim);
             letter-spacing: 1px;
         }
+       
         .two-columns {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -221,15 +243,18 @@
             margin-bottom: 3rem;
         }
         .card {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 24px;
             padding: 1.8rem;
-            border: 1px solid rgba(197, 160, 71, 0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--glass-border);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.3);
             border-color: var(--gold);
         }
         .card-title {
@@ -257,7 +282,7 @@
         }
         .skill-bar {
             height: 6px;
-            background: #2a2a2a;
+            background: rgba(42,42,42,0.8);
             border-radius: 3px;
             overflow: hidden;
         }
@@ -267,6 +292,7 @@
             width: 0%;
             border-radius: 3px;
             transition: width 1s ease;
+            box-shadow: 0 0 6px var(--gold);
         }
         .timeline-item {
             display: flex;
@@ -295,8 +321,9 @@
             margin-top: 1rem;
         }
         .interest-tag {
-            background: rgba(197, 160, 71, 0.15);
-            border: 1px solid rgba(197, 160, 71, 0.3);
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--glass-border);
             padding: 0.4rem 1rem;
             border-radius: 40px;
             font-size: 0.85rem;
@@ -306,6 +333,7 @@
             background: var(--gold);
             color: #0a0a0a;
             border-color: var(--gold);
+            transform: translateY(-2px);
         }
         .contact-links {
             display: flex;
@@ -315,8 +343,9 @@
             margin-top: 2rem;
         }
         .contact-btn {
-            background: transparent;
-            border: 1px solid var(--gold);
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--glass-border);
             color: var(--gold);
             padding: 0.8rem 1.8rem;
             border-radius: 40px;
@@ -332,13 +361,15 @@
             color: #0a0a0a;
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(197,160,71,0.3);
+            border-color: var(--gold);
         }
         footer {
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
             text-align: center;
             padding: 2rem;
             margin-top: 2rem;
-            border-top: 1px solid var(--gold);
+            border-top: 1px solid var(--glass-border);
             font-size: 0.85rem;
             color: var(--text-dim);
         }
@@ -507,7 +538,6 @@
 </footer>
 
 <script>
-   
     function createParticles() {
         const container = document.getElementById('particlesBg');
         if (!container) return;
@@ -544,7 +574,6 @@
         skills.forEach(skill => observer.observe(skill));
     }
 
-    
     function initSplash() {
         const splash = document.getElementById('splashScreen');
         const skipHint = document.getElementById('skipHint');
